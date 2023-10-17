@@ -7,7 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import { Container } from "react-bootstrap";
+
+import Container from "@mui/material/Container";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <Header />
-        <Container>{children}</Container>
+        <div>{children}</div>
         <Footer />
       </body>
     </html>

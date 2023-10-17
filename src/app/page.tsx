@@ -1,22 +1,17 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
-export default function Home() {
+import Home from "./home/page";
+
+export default function Root() {
   return (
-    <main className={styles.main}>
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-      </div>
-    </main>
+    // <main className={styles.main}>
+    //   <div>
+    //     <Home />
+    //   </div>
+    // </main>
+    <div style={{ minHeight: "100vh" }}>
+      <Home />
+    </div>
   );
 }
