@@ -5,6 +5,7 @@ import { Transform } from "stream";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -52,6 +53,8 @@ let pages: { id: number; page: string; link: string }[] = [
 ];
 
 function Header() {
+  const router = useRouter();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -89,6 +92,7 @@ function Header() {
                     borderBottom: "2px solid #00C194",
                   },
                 }}
+                onClick={() => router.push(page.link)}
               >
                 {page.page}
               </Button>
