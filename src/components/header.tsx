@@ -17,7 +17,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
 import Typography from "@mui/material/Typography";
-
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -49,7 +49,7 @@ let pages: { id: number; page: string; link: string }[] = [
     id: 5,
     page: "Contact",
     link: "/contact",
-  },
+  }, 
 ];
 
 function Header() {
@@ -70,25 +70,31 @@ function Header() {
       sx={{
         width: "100%",
         backgroundColor: "#0E2E50",
+        height: "86px",
+
       }}
     >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+      <Container maxWidth="xl" sx={{
+        margin:"auto",
+        maxWidth:{xs:"1240px !important", md:" ",}
+      }}>
+        <Toolbar disableGutters sx={{justifyContent:"space-between", height: "86px" }}>
           <Box sx={{ "&:hover": { cursor: "pointer" } }}>
-            <Image src="./logo_light.svg" width={136} height={36} alt="Logo" />
+            <Image src="./logo_light.svg" width={148} height={39} alt="Logo" />
           </Box>
 
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" },  marginLeft: "20px", marginRight:"20px" }}>
             {pages.map((page) => (
               <Button
                 key={page.id}
                 sx={{
                   textTransform: "none",
-                  padding: "16px",
+                  padding: "30px 15px",
+                  fontSize:"16px",
                   borderRadius: "0",
                   color: "white",
                   "&:hover": {
-                    color: "#00C194",
+                    color: "#50f5dc",
                     borderBottom: "2px solid #00C194",
                   },
                 }}
@@ -105,11 +111,14 @@ function Header() {
               ".MuiBadge-badge": {
                 backgroundColor: "#00C194",
                 top: "4px",
-                right: "4px",
+                right: "11px",
               },
+              alignItems: "center"
             }}
           >
-            <Badge badgeContent={4}>
+            <Badge badgeContent={4} sx={{
+              alignItems:"center",
+            }}>
               <IconButton
                 aria-label="favorite"
                 sx={{
@@ -123,15 +132,44 @@ function Header() {
                   },
                   color: "white",
                   border: "1px solid white",
-                  marginRight: "4px",
-                  marginLeft: "4px",
-                  height: "36px",
-                  width: "36px",
+                  marginRight: "10px",
+                  marginLeft: "10px",
+                  height: "40px",
+                  width: "40px",
+                }}
+              >
+                <CompareArrowsIcon
+                  className="icon-rotate"
+                  sx={{ height: "20px", width: "20px", alignItems:"center" }}
+                />
+              </IconButton>
+            </Badge>
+
+            <Badge badgeContent={4} sx={{
+              alignItems:"center",
+            }}>
+              <IconButton
+                aria-label="favorite"
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#00C194",
+                    border: "1px solid #00C194",
+                  },
+                  "&:hover .icon-rotate": {
+                    transform: "rotateY(180deg)",
+                    transition: "transform 0.6s ease",
+                  },
+                  color: "white",
+                  border: "1px solid white",
+                  marginRight: "10px",
+                  marginLeft: "10px",
+                  height: "40px",
+                  width: "40px",
                 }}
               >
                 <FavoriteBorderIcon
                   className="icon-rotate"
-                  sx={{ height: "16px", width: "16px" }}
+                  sx={{ height: "20px", width: "20px", alignItems:"center" }}
                 />
               </IconButton>
             </Badge>
@@ -149,15 +187,15 @@ function Header() {
                 },
                 color: "white",
                 border: "1px solid white",
-                marginLeft: "4px",
-                marginRight: "4px",
-                height: "36px",
-                width: "36px",
+                marginLeft: "10px",
+                marginRight: "10px",
+                height: "40px",
+                width: "40px",
               }}
             >
               <PersonOutlineIcon
                 className="icon-rotate"
-                sx={{ height: "16px", width: "16px" }}
+                sx={{ height: "20px", width: "20px" }}
               />
             </IconButton>
 
@@ -167,21 +205,45 @@ function Header() {
                 borderRadius: "25px",
                 marginLeft: "4px",
                 marginRight: "4px",
+                fontSize: "15px",
                 backgroundColor: "#00C194",
+                height:"44px",
                 "&:hover": {
                   backgroundColor: "#00A47E",
                 },
                 "& .icon-rotate": {
                   transform: "rotate(0deg)", // Initial state (no rotation)
                   transition: "transform 0.3s ease", // Define the animation transition
+                  borderRadius: "50%", // Hình dạng hình tròn
+                  backgroundColor: "white", // Màu nền của biểu tượng
+                  
+
                 },
+                "& span.MuiButton-startIcon.MuiButton-iconSizeMedium.css-1d6wzja-MuiButton-startIcon" :{
+                  border: "2px solid transparent",
+                  paddingRight: "7px",
+                  paddingLeft: "4px",
+                  alignItems: "center",
+                }
+                ,
                 "&:hover .icon-rotate": {
                   transform: "rotate(180deg)",
                   transition: "transform 0.3s ease",
                 },
+                "& .icon-rotate span": {
+                  border: "2px solid #00C194", // Đường viền dày cho phần span
+                },
+                textTransform: "none",
+                fontWeight:"600"
+
               }}
               variant="contained"
-              startIcon={<AddIcon className="icon-rotate" />}
+              startIcon={<AddIcon className="icon-rotate"
+              sx={{ height: "16px", width: "16px", color:"#00c194", fontSize:"large !important",
+                  
+              }}
+
+              />}
             >
               Add property
             </Button>
