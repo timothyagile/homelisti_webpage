@@ -22,6 +22,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { MenuItem } from "@mui/material";
 
 let pages: { id: number; page: string; link: string }[] = [
@@ -47,6 +48,11 @@ let pages: { id: number; page: string; link: string }[] = [
   },
   {
     id: 5,
+    page: "Blog",
+    link: "/blog",
+  },
+  {
+    id: 6,
     page: "Contact",
     link: "/contact",
   }, 
@@ -64,14 +70,53 @@ function Header() {
     setAnchorEl(null);
   };
 
+  const [isAppBarVisible, setIsAppBarVisible] = React.useState(true);
+  const [isAppBarVisibleScroll, setIsAppBarVisibleScroll] = React.useState(true);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      if (scrollTop === 0) {
+        setIsAppBarVisible(true);
+      } else {
+        setIsAppBarVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []); 
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      if (scrollTop === 0) {
+        setIsAppBarVisibleScroll(true);
+      } else if (scrollTop > 0 && scrollTop <= 50) {
+        setIsAppBarVisibleScroll(false)
+      } else if (scrollTop > 170) {
+        setIsAppBarVisibleScroll(true)
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []); 
+
   return (
     <AppBar
-      position="sticky"
+      position="fixed"
       sx={{
         width: "100%",
-        backgroundColor: "#0E2E50",
+        backgroundColor: isAppBarVisible ? "transparent !important" : "#0E2E50",
         height: "86px",
-
+        transition: "background-color 0.3s, transform 0.7s",
+        boxShadow:"0px 0px 0px transparent",
+        transform: isAppBarVisibleScroll ? "translateY(0)" : "translateY(-100%)",
       }}
     >
       <Container maxWidth="xl" sx={{
@@ -100,7 +145,14 @@ function Header() {
                 }}
                 onClick={() => router.push(page.link)}
               >
-                {page.page}
+                {page.id === 1 || page.id === 3 || page.id === 4 || page.id === 5 ? (
+                  <>
+                  {page.page}
+                  <KeyboardArrowDownIcon />
+                  </>
+                ) : (
+                  page.page
+                )} 
               </Button>
             ))}
           </Box>
