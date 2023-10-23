@@ -107,6 +107,13 @@ function Header() {
     };
   }, []); 
 
+  const [selectedButton, setSelectedButton] = React.useState(1);
+
+  const handleButtonClick = (id: React.SetStateAction<number>, link: string) => {
+    router.push(link)
+    setSelectedButton(id);
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -142,8 +149,11 @@ function Header() {
                     color: "#50f5dc",
                     borderBottom: "2px solid #00C194",
                   },
+                  "span.MuiTouchRipple-root.css-8je8zh-MuiTouchRipple-root": {
+                    borderBottom: selectedButton === page.id ? "4px solid #00C194" : "none",
+                  }
                 }}
-                onClick={() => router.push(page.link)}
+                onClick={() => handleButtonClick(page.id, page.link)}
               >
                 {page.id === 1 || page.id === 3 || page.id === 4 || page.id === 5 ? (
                   <>
