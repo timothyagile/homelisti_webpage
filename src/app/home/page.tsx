@@ -1,4 +1,11 @@
-"use-client";
+"use client";
+
+import * as React from "react";
+
+import Image from "next/image";
+
+import api from "../api/client";
+import Homestyle from "./home.module.scss";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -7,10 +14,33 @@ import Typography from "@mui/material/Typography";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea } from "@mui/material";
+import Divider from "@mui/material/Divider";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import { useMediaQuery } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import BedIcon from "@mui/icons-material/Bed";
+import ShowerIcon from "@mui/icons-material/Shower";
+import AspectRatioIcon from "@mui/icons-material/AspectRatio";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import HomeIcon from "@mui/icons-material/Home";
+import ArticleIcon from "@mui/icons-material/Article";
+import KeyIcon from "@mui/icons-material/Key";
+import PhoneIcon from "@mui/icons-material/Phone";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 const categories: string[] = [
   "Apartments",
@@ -32,13 +62,120 @@ const locations: string[] = [
   "New Jersey",
 ];
 
+let logos: { id: number; title: string; link: string }[] = [
+  {
+    id: 1,
+    title: "client-logo-1",
+    link: "/client-logo-1.svg",
+  },
+  {
+    id: 2,
+    title: "client-logo-2",
+    link: "/client-logo-2.svg",
+  },
+  {
+    id: 3,
+    title: "client-logo-3",
+    link: "/client-logo-3.svg",
+  },
+  {
+    id: 4,
+    title: "client-logo-4",
+    link: "/client-logo-4.svg",
+  },
+  {
+    id: 5,
+    title: "client-logo-5",
+    link: "/client-logo-5.svg",
+  },
+  {
+    id: 6,
+    title: "client-logo-6",
+    link: "/client-logo-6.svg",
+  },
+];
+
+const temp: string[] = ["1", "2", "3", "4", "5", "6"];
+
+const locationImgs: { img: string; title: string; properties: number }[] = [
+  {
+    img: "/location-1.jpg",
+    title: "California",
+    properties: 4,
+  },
+  {
+    img: "/location-2.jpg",
+    title: "Claremont",
+    properties: 4,
+  },
+  {
+    img: "/location-3.jpg",
+    title: "Kansas",
+    properties: 2,
+  },
+  {
+    img: "/location-4.jpg",
+    title: "Louisiana",
+    properties: 1,
+  },
+  {
+    img: "/location-5.jpg",
+    title: "Abilene",
+    properties: 2,
+  },
+];
+
+let agents: {
+  id: number;
+  ava: string;
+  count: number;
+  name: string;
+  subTitle: string;
+  phone: string;
+}[] = [
+  {
+    id: 1,
+    ava: "/rosy_janner.jpg",
+    count: 2,
+    name: "Rosy Janner",
+    subTitle: "Sunshine",
+    phone: "+442037691880",
+  },
+  {
+    id: 2,
+    ava: "/david_lee.jpg",
+    count: 4,
+    name: "David Lee",
+    subTitle: "Sunshine",
+    phone: "+182137121886",
+  },
+  {
+    id: 3,
+    ava: "/mike_hussy-1.jpg",
+    count: 1,
+    name: "Mike Hussy",
+    subTitle: "Eco Builders",
+    phone: "+442037691880",
+  },
+  {
+    id: 4,
+    ava: "/tom_steven.jpg",
+    count: 2,
+    name: "Tom Steven",
+    subTitle: "Sweet Home",
+    phone: "+052015698546",
+  },
+];
+
 const Home = () => {
+  const matches = useMediaQuery("(min-width:600px)");
   return (
     <div
       style={{
         minHeight: "100vh",
       }}
     >
+      {/* container 1 */}
       <div
         style={{
           display: "flex",
@@ -50,12 +187,7 @@ const Home = () => {
           minHeight: "732px",
         }}
       >
-        <Container
-          maxWidth="xl"
-          sx={{
-            height: "100%",
-          }}
-        >
+        <Container maxWidth="xl">
           <Box
             sx={{
               margin: "auto",
@@ -111,35 +243,56 @@ const Home = () => {
             </ButtonGroup>
             <Grid container rowSpacing={1}>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <TextField
-                  label="Enter Keyword here ..."
-                  variant="outlined"
-                  sx={{ backgroundColor: "white", width: "100%" }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <Select
-                  label="Select Type"
+                <Box
                   sx={{
-                    width: "100%",
                     backgroundColor: "white",
+                    borderRadius: "4px",
                   }}
                 >
-                  {types.map((type) => (
-                    <MenuItem key={type}>{type}</MenuItem>
-                  ))}
-                </Select>
+                  <TextField
+                    label="Enter Keyword here ..."
+                    variant="outlined"
+                    sx={{ backgroundColor: "transparent", width: "100%" }}
+                  />
+                </Box>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <TextField
-                  label="Select Location"
-                  select
-                  sx={{ backgroundColor: "white", width: "100%" }}
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                  }}
                 >
-                  {locations.map((location) => (
-                    <MenuItem key={location}>{location}</MenuItem>
-                  ))}
-                </TextField>
+                  <Select
+                    label="Select Type"
+                    sx={{
+                      width: "100%",
+                      backgroundColor: "transparent",
+                    }}
+                  >
+                    {types.map((type) => (
+                      <MenuItem key={type}>{type}</MenuItem>
+                    ))}
+                  </Select>
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                  }}
+                >
+                  <TextField
+                    label="Select Location"
+                    select
+                    sx={{ backgroundColor: "transparent", width: "100%" }}
+                  >
+                    {locations.map((location) => (
+                      <MenuItem key={location}>{location}</MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <Button
@@ -173,6 +326,449 @@ const Home = () => {
           </Box>
         </Container>
       </div>
+      {/* container 2 */}
+      <Box
+        sx={{
+          margin: "90px 0 90px 0",
+        }}
+      >
+        <Container maxWidth="xl">
+          <Grid container spacing={2} rowSpacing={2} columnSpacing={2}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={4}
+              lg={4}
+              sx={{ justifyContent: "center" }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ color: "#00C194", textTransform: "uppercase" }}
+                gutterBottom
+              >
+                Our clients
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: "800",
+                  fontSize: "32px",
+                  lineHeight: "1.2",
+                  textTransform: "uppercase",
+                }}
+                gutterBottom
+              >
+                {"We're going to became"}
+                {<br />}
+                {"partners for the long run"}
+              </Typography>
+              <Typography gutterBottom>
+                Ghen an unknown printer took a galley of type andscr ambledit to
+                make a type specimen book has survived not only five centuries
+                but also.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={8} lg={8}>
+              <Grid
+                container
+                rowSpacing={2}
+                columnSpacing={2}
+                sx={{ alignItems: "center", justifyContent: "center" }}
+              >
+                {logos.map((logo) => (
+                  <Grid item key={logo.id} xs={12} sm={4} md={4} lg={4}>
+                    <Box
+                      sx={{
+                        "&:hover .home-logo": {
+                          cursor: "pointer",
+                          filter: "none !important",
+                        },
+                      }}
+                    >
+                      <Image
+                        className="home-logo"
+                        alt={logo.title}
+                        src={logo.link}
+                        width={200}
+                        height={117}
+                        style={{
+                          display: "flex",
+                          filter: "grayscale(100%)",
+                          margin: "auto",
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* container 3 */}
+      <Box className={Homestyle.container3}>
+        <Container maxWidth="xl">
+          <Grid container className={Homestyle.sectionTitle}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <Typography className={Homestyle.subTitle}>
+                Our properties
+              </Typography>
+              <Typography variant="h2" className={Homestyle.mainTitle}>
+                Latest properties
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              sx={{ display: "flex", justifyContent: "end" }}
+            >
+              <ButtonGroup variant="text" sx={{ padding: "10px 0 10px 0" }}>
+                <Grid container spacing={2}>
+                  {types.map((type) => (
+                    <Grid item key={type}>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          textTransform: "none",
+                          color: "black",
+                          backgroundColor: "transparent",
+                          padding: "6px 35px",
+                          borderRadius: "24px",
+                          border: "1px solid #00C194",
+
+                          "&:hover": {
+                            color: "white",
+                            backgroundColor: "#00C194",
+                          },
+                          "&:not(:last-child)": {
+                            borderRight: "none",
+                          },
+                        }}
+                      >
+                        {type}
+                      </Button>
+                    </Grid>
+                  ))}
+                </Grid>
+              </ButtonGroup>
+            </Grid>
+          </Grid>
+          <Grid container spacing={4}>
+            {temp.map((temp) => (
+              <Grid key={temp} item xs={12} sm={12} md={4} lg={4}>
+                <Card className={Homestyle.cardContainer}>
+                  <div className={Homestyle.productThumb}>
+                    <div className={Homestyle.productType}>
+                      <span className={Homestyle.productTypeBadge}>
+                        For Sell
+                      </span>
+                    </div>
+                    <CardMedia
+                      className={Homestyle.cardImg}
+                      component="img"
+                      alt="picture"
+                      height="240"
+                      image="/mike_hussy4-400x240.jpg"
+                    />
+                    <Typography className={Homestyle.productPrice}>
+                      $ 50,000
+                    </Typography>
+                    <div className={Homestyle.listingAction}>
+                      <IconButton
+                        aria-label="like"
+                        className={Homestyle.actionBtn}
+                      >
+                        <FavoriteBorderIcon className={Homestyle.icon} />
+                      </IconButton>
+                      <IconButton
+                        aria-label="compare"
+                        className={Homestyle.actionBtn}
+                      >
+                        <CompareArrowsIcon className={Homestyle.icon} />
+                      </IconButton>
+                    </div>
+                  </div>
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      component="div"
+                      sx={{ color: "#00c194" }}
+                    >
+                      Commercial
+                    </Typography>
+                    <Typography
+                      noWrap
+                      gutterBottom
+                      variant="h3"
+                      component="h3"
+                      className={Homestyle.title}
+                    >
+                      Countryside Modern Lake View Restaurant
+                    </Typography>
+                    <div className={Homestyle.entryMeta}>
+                      <LocationOnIcon />
+                      <Typography gutterBottom>New Jersey</Typography>
+                    </div>
+                    <Grid container className={Homestyle.listInformation}>
+                      <Grid item className={Homestyle.productFeatures}>
+                        <BedIcon className={Homestyle.productFeaturesIcon} />
+                        <Typography>Beds 4</Typography>
+                      </Grid>
+                      <Grid className={Homestyle.productFeatures}>
+                        <ShowerIcon className={Homestyle.productFeaturesIcon} />
+                        <Typography>Baths 2</Typography>
+                      </Grid>
+                      <Grid className={Homestyle.productFeatures}>
+                        <AspectRatioIcon
+                          className={Homestyle.productFeaturesIcon}
+                        />
+                        <Typography>2000 Sqft</Typography>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                  <Divider className={Homestyle.cardDivider} />
+                  <CardActions className={Homestyle.cardAction}>
+                    <div className={Homestyle.author}>
+                      <Avatar
+                        alt="Tom Steven"
+                        src="/tom_steven-150x150.jpg"
+                        className={Homestyle.img}
+                      />
+                      <Typography>By Tom Steven</Typography>
+                    </div>
+                    <Button className={Homestyle.cardButton}>Details</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* container 4 */}
+      <Box className={Homestyle.container4}>
+        <Container maxWidth="xl">
+          <div className={Homestyle.title}>
+            <Typography className={Homestyle.subTitle}>
+              Our working proccess
+            </Typography>
+            <Typography
+              variant="h2"
+              component="h2"
+              className={Homestyle.mainTitle}
+            >
+              How it works
+            </Typography>
+            <Typography className={Homestyle.description}>
+              Make a type specimen book. It has survived not only five
+              centuries, but also
+              <br /> the leap into electronic typesetting, remaining.
+            </Typography>
+          </div>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+              <Paper variant="outlined" className={Homestyle.serviceBox}>
+                <div className={Homestyle.imgWrap}>
+                  <div className={Homestyle.hoverBackground} />
+                  <HomeIcon className={Homestyle.icon} />
+                </div>
+                <div className={Homestyle.content}>
+                  <Typography
+                    variant="h3"
+                    component="h3"
+                    className={Homestyle.mainTitle}
+                  >
+                    Find property
+                  </Typography>
+                  <Typography className={Homestyle.description}>
+                    Odales mauris quis tellus facilis wisvel mattis magna
+                    interdumr awabitur aweeget aliquam elit.
+                  </Typography>
+                </div>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+              <Paper variant="outlined" className={Homestyle.serviceBox}>
+                <div className={Homestyle.imgWrap}>
+                  <div className={Homestyle.hoverBackground} />
+                  <ArticleIcon className={Homestyle.icon} />
+                </div>
+                <div className={Homestyle.content}>
+                  <Typography
+                    variant="h3"
+                    component="h3"
+                    className={Homestyle.mainTitle}
+                  >
+                    Make a Deal
+                  </Typography>
+                  <Typography className={Homestyle.description}>
+                    Odales mauris quis tellus facilis wisvel mattis magna
+                    interdumr awabitur aweeget aliquam elit.
+                  </Typography>
+                </div>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+              <Paper variant="outlined" className={Homestyle.serviceBox}>
+                <div className={Homestyle.imgWrap}>
+                  <div className={Homestyle.hoverBackground} />
+                  <KeyIcon className={Homestyle.icon} />
+                </div>
+                <div className={Homestyle.content}>
+                  <Typography
+                    variant="h3"
+                    component="h3"
+                    className={Homestyle.mainTitle}
+                  >
+                    Get your keys
+                  </Typography>
+                  <Typography className={Homestyle.description}>
+                    Odales mauris quis tellus facilis wisvel mattis magna
+                    interdumr awabitur aweeget aliquam elit.
+                  </Typography>
+                </div>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Container 5 */}
+      <Box className={Homestyle.container5}>
+        <ImageList cols={matches ? 5 : 1} gap={0}>
+          {locationImgs.map((location) => (
+            <ImageListItem key={location.img}>
+              <div className={Homestyle.imgContainer}>
+                <div className={Homestyle.overlay}></div>
+                <Image
+                  layout="fill"
+                  objectFit="cover"
+                  src={location.img}
+                  alt={location.title}
+                  loading="lazy"
+                  className={Homestyle.img}
+                />
+                <div className={Homestyle.content}>
+                  <Typography
+                    variant="h3"
+                    component="h3"
+                    className={Homestyle.title}
+                  >
+                    {location.title}
+                  </Typography>
+                  <div className={Homestyle.count}>
+                    <Typography className={Homestyle.text}>
+                      {location.properties}{" "}
+                      {location.properties > 1 ? "Properties" : "Property"}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </Box>
+
+      {/* Container 6 */}
+      <Box className={Homestyle.container6}>
+        <Container maxWidth="xl">
+          <div className={Homestyle.title}>
+            <Typography className={Homestyle.subTitle}>
+              EXPERTISE IS HERE
+            </Typography>
+            <Typography
+              variant="h2"
+              component="h2"
+              className={Homestyle.mainTitle}
+            >
+              Our Exclusive Agents
+            </Typography>
+          </div>
+          <Grid container spacing={2} className={Homestyle.wrap}>
+            {agents.map((agent) => (
+              <Grid key={agent.id} item xs={6} sm={6} md={3} lg={3}>
+                <Card className={Homestyle.agentBlock}>
+                  <CardActionArea className={Homestyle.agentContainer}>
+                    <Box className={Homestyle.agentImgContainer}>
+                      <CardMedia
+                        className={Homestyle.agentImg}
+                        component="img"
+                        height="255"
+                        image={agent.ava}
+                        alt={agent.name}
+                      />
+                      <Box className={Homestyle.categoryBox}>
+                        <Typography className={Homestyle.itemCategory}>
+                          {agent.count} Listings
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <CardContent className={Homestyle.itemContent}>
+                      <Typography
+                        gutterBottom
+                        variant="h3"
+                        component="h3"
+                        className={Homestyle.itemName}
+                      >
+                        {agent.name}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h4"
+                        component="h4"
+                        className={Homestyle.itemSubtitle}
+                      >
+                        {agent.subTitle}
+                      </Typography>
+                      <Box className={Homestyle.itemContact}>
+                        <PhoneIcon className={Homestyle.itemIcon} />
+                        <Typography
+                          gutterBottom
+                          className={Homestyle.itemPhone}
+                        >
+                          Call: {agent.phone}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          <Box
+            sx={{ width: "100%", display: "flex", justifyContent: "center" }}
+          >
+            <Box className={Homestyle.elementorWrap}>
+              <Box className={Homestyle.elementorContainer}>
+                <GroupsIcon className={Homestyle.iconHolder} />
+                <Box className={Homestyle.contentHolder}>
+                  <Typography
+                    gutterBottom
+                    variant="h3"
+                    component="h3"
+                    className={Homestyle.infoTitle}
+                  >
+                    Become an Agent
+                  </Typography>
+                  <Typography sx={{ color: "#70778B", fontSize: "16px" }}>
+                    Agent hen an unknown printer took a galley scramble
+                  </Typography>
+                </Box>
+              </Box>
+              <Box className={Homestyle.btnWrap}>
+                <Button variant="contained" className={Homestyle.btn}>
+                  Join Now
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
     </div>
   );
 };
