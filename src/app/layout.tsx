@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        <div>{children}</div>
+        <div style={{ minHeight: "100vh" }}>{children}</div>
         <Footer />
       </body>
     </html>

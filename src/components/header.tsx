@@ -17,18 +17,49 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
 import Typography from "@mui/material/Typography";
-
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { MenuItem } from "@mui/material";
+import Popper from "@mui/material/Popper";
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-let pages: { id: number; page: string; link: string }[] = [
+
+let pages: { id: number; page: string; link: string; children?: { id: number; content: string;}[] }[] = [
   {
     id: 1,
     page: "Home",
     link: "/",
+    children: [
+      {
+        id: 1,
+        content: "Home 1"
+      },
+      {
+        id: 2,
+        content: "Home 2"
+      },
+      {
+        id: 3,
+        content: "Home 3"
+      },
+      {
+        id: 4,
+        content: "Home 4"
+      },
+      {
+        id: 5,
+        content: "Home 5"
+      },
+      {
+        id: 6,
+        content: "Home 6"
+      },
+
+    ]
   },
   {
     id: 2,
@@ -39,17 +70,93 @@ let pages: { id: number; page: string; link: string }[] = [
     id: 3,
     page: "Property",
     link: "/property",
+    children: [
+      {
+        id: 1,
+        content: "Properties Grid"
+      },
+      {
+        id: 2,
+        content: "Properties List"
+      },
+      {
+        id: 3,
+        content: "Properties Map Grid"
+      },
+      {
+        id: 4,
+        content: "Properties Map List"
+      },
+      {
+        id: 5,
+        content: "Properties Fullwidth"
+      },
+      {
+        id: 6,
+        content: "Single Property-Default"
+      },
+      {
+        id: 7,
+        content: "Single Property-Fullwidth"
+      },
+      {
+        id: 8,
+        content: "Single Property-Grid"
+      },
+
+    ]
   },
   {
     id: 4,
     page: "Pages",
     link: "/pages",
+    children: [
+      {
+        id: 1,
+        content: "Agencies"
+      },
+      {
+        id: 2,
+        content: "Agents"
+      },
+      {
+        id: 3,
+        content: "Agent Details"
+      },
+      {
+        id: 4,
+        content: "Pricing Table"
+      },
+      {
+        id: 5,
+        content: "404 Error"
+      },
+    ]
   },
   {
     id: 5,
+    page: "Blog",
+    link: "/blog",
+    children: [
+      {
+        id: 1,
+        content: "Blog List"
+      },
+      {
+        id: 2,
+        content: "Blog Grid"
+      },
+      {
+        id: 3,
+        content: "Blog Details"
+      },
+    ]
+  },
+  {
+    id: 6,
     page: "Contact",
     link: "/contact",
-  },
+  }, 
 ];
 
 function Header() {
@@ -57,6 +164,15 @@ function Header() {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [popperOpen, setPopperOpen] = React.useState(false);
+  const [popperAnchorEl, setPopperAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [selectedButton, setSelectedButton] = React.useState(1);
+  const [selectedButtonChoose, setSelectedButtonChoose] = React.useState(1);
+  const [isAppBarVisible, setIsAppBarVisible] = React.useState(true);
+  const [isAppBarVisibleScroll, setIsAppBarVisibleScroll] = React.useState(true);
+
+  
+  
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -64,38 +180,207 @@ function Header() {
     setAnchorEl(null);
   };
 
+  //Button hover
+ 
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      if (scrollTop === 0) {
+        setIsAppBarVisible(true);
+      } else {
+        setIsAppBarVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []); 
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      if (scrollTop === 0) {
+        setIsAppBarVisibleScroll(true);
+      } else if (scrollTop > 0 && scrollTop <= 50) {
+        setIsAppBarVisibleScroll(false)
+      } else if (scrollTop > 170) {
+        setIsAppBarVisibleScroll(true)
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []); 
+
+  
+  const handleButtonClick = (event: React.MouseEvent<HTMLElement>, id: number, link: string) => {
+    setPopperAnchorEl(event.currentTarget);
+    setSelectedButton(id);
+    router.push(link);
+  };
+
+  const handleButtonClick_1 = (event: React.MouseEvent<HTMLElement>) => {
+    const validIds = [1, 3, 4, 5];
+    const isPageValid = pages.some(page => validIds.includes(page.id));
+  
+    if (isPageValid) {
+      setPopperOpen(true);
+      setPopperAnchorEl(event.currentTarget);
+      
+    } else {
+      setPopperOpen(false);
+      setPopperAnchorEl(event.currentTarget);
+    }
+    
+  };
+
+  const handleButtonClick_2 = () => {
+    const validIds = [1, 3, 4, 5];
+    const isPageValid = pages.some(page => validIds.includes(page.id));
+  
+    if (isPageValid) {
+      setPopperOpen(true);
+    } else {
+      setPopperOpen(false);
+    }
+  };
+  //menu hover icon
+  const [isMenuItemHovered, setIsMenuItemHovered] = React.useState('');
+  
+  function handleMenuItemEnter(childPageId: string) {
+    setIsMenuItemHovered(childPageId);
+  }
+  
+  function handleMenuItemLeave() {
+    setIsMenuItemHovered('');
+  }
   return (
     <AppBar
-      position="sticky"
+      position="fixed"
       sx={{
         width: "100%",
-        backgroundColor: "#0E2E50",
+        backgroundColor: isAppBarVisible ? "#0E2E50!important" : "#0E2E50",
+        height: "86px",
+        transition: "background-color 0.3s, transform 0.7s",
+        boxShadow:"0px 0px 0px transparent",
+        transform: isAppBarVisibleScroll ? "translateY(0)" : "translateY(-100%)",
       }}
     >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+      <Container maxWidth="xl" sx={{
+        margin:"auto",
+        maxWidth:{xs:"1240px !important", md:" ",}
+      }}>
+        <Toolbar disableGutters sx={{justifyContent:"space-between", height: "86px" }}>
           <Box sx={{ "&:hover": { cursor: "pointer" } }}>
-            <Image src="./logo_light.svg" width={136} height={36} alt="Logo" />
+            <Image src="./logo_light.svg" width={148} height={39} alt="Logo" />
           </Box>
 
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" },  marginLeft: "20px", marginRight:"20px", transition:"none" }}
+               
+          >
             {pages.map((page) => (
-              <Button
-                key={page.id}
-                sx={{
-                  textTransform: "none",
-                  padding: "16px",
-                  borderRadius: "0",
-                  color: "white",
-                  "&:hover": {
-                    color: "#00C194",
-                    borderBottom: "2px solid #00C194",
-                  },
-                }}
-                onClick={() => router.push(page.link)}
-              >
-                {page.page}
-              </Button>
+              <div key={page.id} onMouseEnter={() => {handleButtonClick_2()}} onMouseLeave={() => setPopperOpen(false)}>
+                <Button
+                  key={page.id}
+                  sx={{
+                    textTransform: "none",
+                    padding: "30px 15px", // Thêm padding cho nút
+                    fontSize: "16px",
+                    borderRadius: "0",
+                    color: "white",
+                    height: "86px", // Đặt chiều cao cố định cho nút
+                    "&:hover": {
+                      color: "#50f5dc",
+                      borderBottom: "3px solid #50ffe4",
+                      transition: "none",
+                    },
+                    "span.MuiTouchRipple-root.css-8je8zh-MuiTouchRipple-root": {
+                      borderBottom: selectedButton === page.id ? "3px solid #50ffe4" : "none",
+                    }
+                  }}
+                  onClick={(event) => handleButtonClick(event, page.id, page.link)}
+                  onMouseEnter={(event) => {
+                    if (page.id === 1 || page.id === 3 || page.id === 4 || page.id === 5) {
+                      handleButtonClick_1(event);
+                      setSelectedButtonChoose(page.id);
+                    }else{
+                      setPopperOpen(false)
+                    }
+                  }}
+                  onMouseLeave={() => {setPopperOpen(false)}}
+                >
+                  {page.id === 1 || page.id === 3 || page.id === 4 || page.id === 5 ? (
+                    <>
+                    {page.page}
+                    <KeyboardArrowDownIcon sx= {{fontSize: "18px"}} />
+                    </>
+                  ) : (
+                    page.page
+                  )} 
+                </Button>
+                
+                
+                <Popper
+                  open={popperOpen}
+                  anchorEl={popperAnchorEl}
+                  placement="top-start"
+                  sx={{
+                    backgroundColor: "#fff",
+                    maxHeight: "400px",
+                    overflowY: "auto",
+                    width: "250px",
+                    padding: "20px 15px",
+                    zIndex: "999",
+                    border: "1px solid #cdcdcd"
+                  }}
+                >
+                  <div>
+                    {pages
+                      .filter((page) => page.id === selectedButtonChoose) // Sử dụng selectedButton hoặc selectedButtonChoose
+                      .map((selectedPage) =>
+                        selectedPage.children?.map((childPage) => (
+                          <MenuItem sx= {{
+                            padding:"10px 0px",
+                            fontSize: "15px",
+                            lineHeight:"22px",
+                            "&:hover": {
+                              color: "#00c194",
+                              backgroundColor:"white",
+                            },
+
+                          }} key={childPage.id}
+                                                     
+                          >
+                              <div 
+                                style = {{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  width: "100%",
+                                }}
+                                onMouseEnter={() => setIsMenuItemHovered(childPage.id.toString())}
+                                onMouseLeave={() => setIsMenuItemHovered('')} 
+                              >
+                                {isMenuItemHovered === childPage.id.toString() && (
+                                  <ChevronRightIcon 
+                                    sx={{ 
+                                      fontSize: "18px",
+                                      transition: "left 0.8s cubic-bezier(0.46, 0.51, 0.62, 0.92)",
+                                    }} />
+                                )}
+                                {childPage.content}
+                              </div>
+                          </MenuItem>
+                        ))
+                      )}
+                  </div>
+                </Popper>
+                
+              </div>
             ))}
           </Box>
 
@@ -105,11 +390,14 @@ function Header() {
               ".MuiBadge-badge": {
                 backgroundColor: "#00C194",
                 top: "4px",
-                right: "4px",
+                right: "11px",
               },
+              alignItems: "center"
             }}
           >
-            <Badge badgeContent={4}>
+            <Badge badgeContent={4} sx={{
+              alignItems:"center",
+            }}>
               <IconButton
                 aria-label="favorite"
                 sx={{
@@ -123,15 +411,44 @@ function Header() {
                   },
                   color: "white",
                   border: "1px solid white",
-                  marginRight: "4px",
-                  marginLeft: "4px",
-                  height: "36px",
-                  width: "36px",
+                  marginRight: "10px",
+                  marginLeft: "10px",
+                  height: "40px",
+                  width: "40px",
+                }}
+              >
+                <CompareArrowsIcon
+                  className="icon-rotate"
+                  sx={{ height: "20px", width: "20px", alignItems:"center" }}
+                />
+              </IconButton>
+            </Badge>
+
+            <Badge badgeContent={4} sx={{
+              alignItems:"center",
+            }}>
+              <IconButton
+                aria-label="favorite"
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#00C194",
+                    border: "1px solid #00C194",
+                  },
+                  "&:hover .icon-rotate": {
+                    transform: "rotateY(180deg)",
+                    transition: "transform 0.6s ease",
+                  },
+                  color: "white",
+                  border: "1px solid white",
+                  marginRight: "10px",
+                  marginLeft: "10px",
+                  height: "40px",
+                  width: "40px",
                 }}
               >
                 <FavoriteBorderIcon
                   className="icon-rotate"
-                  sx={{ height: "16px", width: "16px" }}
+                  sx={{ height: "20px", width: "20px", alignItems:"center" }}
                 />
               </IconButton>
             </Badge>
@@ -149,15 +466,15 @@ function Header() {
                 },
                 color: "white",
                 border: "1px solid white",
-                marginLeft: "4px",
-                marginRight: "4px",
-                height: "36px",
-                width: "36px",
+                marginLeft: "10px",
+                marginRight: "10px",
+                height: "40px",
+                width: "40px",
               }}
             >
               <PersonOutlineIcon
                 className="icon-rotate"
-                sx={{ height: "16px", width: "16px" }}
+                sx={{ height: "20px", width: "20px" }}
               />
             </IconButton>
 
@@ -167,21 +484,45 @@ function Header() {
                 borderRadius: "25px",
                 marginLeft: "4px",
                 marginRight: "4px",
+                fontSize: "15px",
                 backgroundColor: "#00C194",
+                height:"44px",
                 "&:hover": {
                   backgroundColor: "#00A47E",
                 },
                 "& .icon-rotate": {
                   transform: "rotate(0deg)", // Initial state (no rotation)
                   transition: "transform 0.3s ease", // Define the animation transition
+                  borderRadius: "50%", // Hình dạng hình tròn
+                  backgroundColor: "white", // Màu nền của biểu tượng
+                  
+
                 },
+                "& span.MuiButton-startIcon.MuiButton-iconSizeMedium.css-1d6wzja-MuiButton-startIcon" :{
+                  border: "2px solid transparent",
+                  paddingRight: "7px",
+                  paddingLeft: "4px",
+                  alignItems: "center",
+                }
+                ,
                 "&:hover .icon-rotate": {
                   transform: "rotate(180deg)",
                   transition: "transform 0.3s ease",
                 },
+                "& .icon-rotate span": {
+                  border: "2px solid #00C194", // Đường viền dày cho phần span
+                },
+                textTransform: "none",
+                fontWeight:"600"
+
               }}
               variant="contained"
-              startIcon={<AddIcon className="icon-rotate" />}
+              startIcon={<AddIcon className="icon-rotate"
+              sx={{ height: "16px", width: "16px", color:"#00c194", fontSize:"large !important",
+                  
+              }}
+
+              />}
             >
               Add property
             </Button>
