@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, useEffect } from "react";
 
 import Image from "next/image";
 
@@ -14,13 +14,13 @@ import Typography from "@mui/material/Typography";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
+import { Alert, CardActionArea, FormControl } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
@@ -28,6 +28,8 @@ import Paper from "@mui/material/Paper";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { useMediaQuery } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -169,6 +171,37 @@ let agents: {
 
 const Home = () => {
   const matches = useMediaQuery("(min-width:600px)");
+
+  const [initial, setInitial] = useState(true);
+  const [listingTypes, setListingTypes] = useState([]);
+  const [selectedListingType, setSelectedListingType] = useState("");
+
+  interface ListingTypes {
+    id: string;
+    name: string;
+  }
+
+  useEffect(() => {
+    getListingTypes();
+  }, []);
+
+  const getListingTypes = () => {
+    api
+      .get("ListingTypes")
+      .then((res) => {
+        setListingTypes(res.data);
+        console.log(listingTypes);
+        setInitial(true);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  const handleSelectedListingType = (event: SelectChangeEvent) => {
+    setSelectedListingType(event.target.value as string);
+  };
+
   return (
     <div
       style={{
@@ -243,56 +276,53 @@ const Home = () => {
             </ButtonGroup>
             <Grid container rowSpacing={1}>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <Box
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "4px",
-                  }}
-                >
-                  <TextField
-                    label="Enter Keyword here ..."
-                    variant="outlined"
-                    sx={{ backgroundColor: "transparent", width: "100%" }}
-                  />
-                </Box>
+                <TextField
+                  label="Enter Keyword here ..."
+                  sx={{ backgroundColor: "white", width: "100%" }}
+                />
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <Box
+                <FormControl
                   sx={{
                     backgroundColor: "white",
-                    borderRadius: "4px",
                   }}
+                  fullWidth
                 >
+                  {/* <InputLabel id="demo-simple-select-label">
+                    Select Type
+                  </InputLabel> */}
                   <Select
-                    label="Select Type"
-                    sx={{
-                      width: "100%",
-                      backgroundColor: "transparent",
-                    }}
+                    // labelId="demo-simple-select-label"
+                    value={selectedListingType}
+                    onChange={handleSelectedListingType}
                   >
-                    {types.map((type) => (
-                      <MenuItem key={type}>{type}</MenuItem>
-                    ))}
+                    <MenuItem value="">
+                      <em>Placeholder</em>
+                    </MenuItem>
+                    {listingTypes.length > 0
+                      ? listingTypes.map((type: ListingTypes) => (
+                          <MenuItem key={type.id} value={type.id}>
+                            {type.name}
+                          </MenuItem>
+                        ))
+                      : types.map((type) => (
+                          <MenuItem key={type} value={type}>
+                            {type}
+                          </MenuItem>
+                        ))}
                   </Select>
-                </Box>
+                </FormControl>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <Box
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "4px",
-                  }}
+                <TextField
+                  label="Select Location"
+                  select
+                  sx={{ backgroundColor: "white", width: "100%" }}
                 >
-                  <TextField
-                    label="Select Location"
-                    select
-                    sx={{ backgroundColor: "transparent", width: "100%" }}
-                  >
-                    {locations.map((location) => (
-                      <MenuItem key={location}>{location}</MenuItem>
-                    ))}
-                  </TextField>
-                </Box>
+                  {locations.map((location) => (
+                    <MenuItem key={location}>{location}</MenuItem>
+                  ))}
+                </TextField>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <Button
