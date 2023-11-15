@@ -146,7 +146,7 @@ const About = () => {
                                                 width: "80%"
                                             }}
                                         >
-                                            We're on a Mission to Change
+                                            {/* We're on a Mission to Change */}
                                             View of RealEstate Field.       
                                         </h2>
                                         <p
