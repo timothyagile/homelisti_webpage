@@ -6,6 +6,8 @@
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --primary-color: #00a47e;
+  --header-height: 86px;
+  --secondary-color: #eaf7f4;
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
