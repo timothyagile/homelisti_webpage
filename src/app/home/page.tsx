@@ -43,6 +43,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import KeyIcon from "@mui/icons-material/Key";
 import PhoneIcon from "@mui/icons-material/Phone";
 import GroupsIcon from "@mui/icons-material/Groups";
+import ProductCard from "@/components/productCard/productCard";
 
 const categories: string[] = [
   "Apartments",
@@ -194,7 +195,7 @@ const Home = () => {
         setInitial(true);
       })
       .catch((error) => {
-        alert(error);
+        // alert(error);
       });
   };
 
@@ -491,89 +492,7 @@ const Home = () => {
           <Grid container spacing={4}>
             {temp.map((temp) => (
               <Grid key={temp} item xs={12} sm={12} md={4} lg={4}>
-                <Card className={Homestyle.cardContainer}>
-                  <div className={Homestyle.productThumb}>
-                    <div className={Homestyle.productType}>
-                      <span className={Homestyle.productTypeBadge}>
-                        For Sell
-                      </span>
-                    </div>
-                    <CardMedia
-                      className={Homestyle.cardImg}
-                      component="img"
-                      alt="picture"
-                      height="240"
-                      image="/mike_hussy4-400x240.jpg"
-                    />
-                    <Typography className={Homestyle.productPrice}>
-                      $ 50,000
-                    </Typography>
-                    <div className={Homestyle.listingAction}>
-                      <IconButton
-                        aria-label="like"
-                        className={Homestyle.actionBtn}
-                      >
-                        <FavoriteBorderIcon className={Homestyle.icon} />
-                      </IconButton>
-                      <IconButton
-                        aria-label="compare"
-                        className={Homestyle.actionBtn}
-                      >
-                        <CompareArrowsIcon className={Homestyle.icon} />
-                      </IconButton>
-                    </div>
-                  </div>
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      component="div"
-                      sx={{ color: "#00c194" }}
-                    >
-                      Commercial
-                    </Typography>
-                    <Typography
-                      noWrap
-                      gutterBottom
-                      variant="h3"
-                      component="h3"
-                      className={Homestyle.title}
-                    >
-                      Countryside Modern Lake View Restaurant
-                    </Typography>
-                    <div className={Homestyle.entryMeta}>
-                      <LocationOnIcon />
-                      <Typography gutterBottom>New Jersey</Typography>
-                    </div>
-                    <Grid container className={Homestyle.listInformation}>
-                      <Grid item className={Homestyle.productFeatures}>
-                        <BedIcon className={Homestyle.productFeaturesIcon} />
-                        <Typography>Beds 4</Typography>
-                      </Grid>
-                      <Grid className={Homestyle.productFeatures}>
-                        <ShowerIcon className={Homestyle.productFeaturesIcon} />
-                        <Typography>Baths 2</Typography>
-                      </Grid>
-                      <Grid className={Homestyle.productFeatures}>
-                        <AspectRatioIcon
-                          className={Homestyle.productFeaturesIcon}
-                        />
-                        <Typography>2000 Sqft</Typography>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                  <Divider className={Homestyle.cardDivider} />
-                  <CardActions className={Homestyle.cardAction}>
-                    <div className={Homestyle.author}>
-                      <Avatar
-                        alt="Tom Steven"
-                        src="/tom_steven-150x150.jpg"
-                        className={Homestyle.img}
-                      />
-                      <Typography>By Tom Steven</Typography>
-                    </div>
-                    <Button className={Homestyle.cardButton}>Details</Button>
-                  </CardActions>
-                </Card>
+                <ProductCard view="grid" />
               </Grid>
             ))}
           </Grid>
