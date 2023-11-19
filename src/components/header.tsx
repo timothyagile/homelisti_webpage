@@ -273,7 +273,7 @@ function Header() {
     >
       <Container maxWidth="xl" sx={{
         margin:"auto",
-        maxWidth:{xs:"1240px !important", md:" ",}
+        maxWidth:{xs:"1280px !important", md:" ",}
       }}>
         <Toolbar disableGutters sx={{justifyContent:"space-between", height: "86px" }}>
           <Box sx={{ "&:hover": { cursor: "pointer" } }}>
