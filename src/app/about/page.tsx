@@ -1,5 +1,5 @@
-"use client";
-import * as React from "react";
+"use-client"
+import { createContext } from 'react'
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
@@ -10,69 +10,21 @@ import Image from "next/image";
 import styled from 'styled-components';
 import './page.css'
 import LinearProgress, {linearProgressClasses} from "@mui/material/LinearProgress";
-import YouTube from 'react-youtube';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import Aos from "aos";
-import 'aos/dist/aos.css'
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import TextField from '@mui/material/TextField';
-import Button from "@mui/material/Button";
 
 
-Aos.init()
 
-function About() {
-   
-    const [scrollPosition, setScrollPosition] = React.useState(0);
 
-    const handleScroll = () => {
-      const position = window.pageYOffset ;
-      setScrollPosition(position);
-    };
-
-    React.useEffect(() => {
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }, []);
-
-    // Tính toán backgroundPositionY dựa trên scrollPosition với sự thay đổi 1px khi lăn chuột xuống
-    const backgroundPositionY1 = `center ${850 - scrollPosition*0.4}px`;
-    const backgroundPositionY2 = `center ${850 - scrollPosition*0.6}px`;
-    const [showVideo, setShowVideo] = React.useState(false);
-
-    const toggleVideo = () => {
-      setShowVideo(!showVideo);
-      const video = document.getElementById('video')
-        if (video){
-            video.style.display = 'block'
-        }
-    };
-    
-    const handleVideoClose = () => {
-        const video = document.getElementById('video')
-        if (video){
-            video.style.display = 'none'
-        }
-    }
+const About = () => {
     return (
-        <div style={{
-            minHeight: "3065px"
-        }}
-            className="main-container"
-        >
+        <>
             <Container 
                 maxWidth="xl"
                 sx={{
-                    maxWidth:{xs:"738px", md:"950px", lg:"1220px"},
+                    maxWidth:{xs:"738px", md:"950px", lg:"1230px"},
                     backgroundColor: "#fff",
                     marginTop: "86px",
-                    minHeight:"100vh",
-                    padding: {xs:"column", lg:"row", md:"0px"},
-                    display: "flex",
-                    flexDirection:"column",
-                    alignItems: "center"
+                    minHeight:"500vh",
+                    padding: {xs:"column", lg:"row", md:"0px"}
                 }}
             >
                 <Box
@@ -80,8 +32,7 @@ function About() {
                         width: "100%",
                         backgroundColor: "white",
                         zIndex:"100",
-                        padding: "30px 0px",
-                        borderBottom:" 1px solid #deede9 "
+                        padding: "30px 0px"
                     }}
                     >
                         <div 
@@ -124,15 +75,22 @@ function About() {
                             </div>
                         </div>
                 </Box>
+                <Divider 
+                    sx={{
+                        maxWidth: "100% !important",
+                        borderColor: "#deede9 !important",
+                        opacity: "1 !important"
+                    }} 
+                />
+
                 <Box
                     sx={{
                         width: "100%",
-                        paddingTop: "120px",
-                        paddingBottom: "120px"
                     }}
                 >
                     <Box
                         sx={{
+                            paddingTop: "100px",
                             display: "flex",
                             flexDirection: {xs:"column", lg:"row", md:"row", sm: "column"},
                             alignItems: {xs:"center", sm: "center", md:"flex-start !important"},
@@ -310,7 +268,6 @@ function About() {
                                 ".MuiBox-root.css-1a0qsji": "-webkit-align-items: flex-start !important",
                                 width: "100%"
                             }}
-                            data-aos = "fade-right"
                         >
                             <Box
                                 sx = {{
@@ -466,652 +423,22 @@ function About() {
                                 </Box>
                             </Box>
                         </Box>
-                        <div className="image-container" data-aos = "fade-left">
-                          <Image
+                        <Image 
                             src="/about-meet-2.jpg"
                             alt="Logo"
-                            width={610}
-                            height={460}
-                            className="image-lg"
-                            loading="lazy"
-                          />
-                          <div className="play-button">
-                            <a className="popup-youtube video-popup-icon" onClick={toggleVideo}>
-                                <span className="triangle"></span>
-                                <span className="rt-ripple-effect" 
-                                    style={{
-                                        boxShadow: "0 0 0 20px rgb(9 32 56 / 50%), 0 0 0 30px rgb(9 32 56 / 40%), 0 0 0 40px rgb(9 32 56 / 30%)",
-                                    }}></span>
-                            </a>
-                            
-                          </div>
-                        </div>
+                            width={610}  
+                            height={460} 
+                            className="image-lg" 
+                        />
+                    </Box>
+                    <Box>
+
                     </Box>
                 </Box>
                 
             </Container>
-            <div className="video" id="video" onClick={() => {handleVideoClose()}}>
-                {showVideo  && (
-                    <YouTube
-                        videoId="XHOmBV4js_E"
-                        style={{
-                            height: "740px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignContent: "center",
-                            flexWrap: "wrap"
-                        }}
-                        opts={{
-                            height: '500',
-                            width: '900',
-                            playerVars: {
-                              autoplay: 1, // Đặt giá trị này thành 1 để tự động phát video khi trang tải
-                            },
-                        }}
-                    />
-                )}
-            </div>                        
-            <Container
-                maxWidth= "xl"
-                sx={{
-                    minHeight: {sm: "400px !important", md: "590px !important"},
-                    backgroundImage: "url(https://homlisti.tpblog.net/wp-content/uploads/2021/08/promo-bg-1.jpg)",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundAttachment: "fixed",
-                    backgroundPosition: {sm: backgroundPositionY1, md: backgroundPositionY2},
-                    padding: {xs: "0px !important", sm: "0px !important", md: "0px !important", lg: ""},
-                    display:"flex",
-                    justifyContent: "center",
-                    alignContent: "center",
-                    maxWidth: {lg: "100%"}
-                }}
-            >
-                <Box
-                    sx={{
-                        minHeight: {xs: "450px", sm: "450px", md: "590px    ", lg: "590px"},
-                        maxWidth: "1240px",
-                        display: "flex",
-                        alignItems: "center",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        position: "relative",
-                        flexDirection: {xs: "column", sm: "column", md: "row", lg: "row"},
-                        justifyContent: {sm: "flex-start !important", md:"flex-start !important"},
-                        alignContent:"center"
-                    }}
-                >
-                    <Box
-                        sx={{
-                            width: {xs:"100%", lg:"38%", md:"38%", sm: "100%"},
-                            className: '.slideInUp',
-                            position: "relative",
-                            minHeight: "1px",
-                            display: "flex",
-                            marginTop: {xs: "50px", sm: "55px", md: "20px"}
-                        }}
-                        data-aos ="fade-up"
-                    >
-                        <Box 
-                            sx={{
-                                backgroundColor: "#fff",
-                                padding: {xs: "15px 40px 15px 40px", sm: "15px 40px 15px 40px", md: "40px 40px 40px 50px", lg: "40px 50px 45px 50px"},
-                                transition: "background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;",
-                                display: "flex",
-                                position: "relative",
-                                width: "100%",
-                                flexWrap: "wrap",
-                                alignContent: "flex-start",
-                                maxHeight: {xs: "235px", sm: "235px", md: "", lg: ""}
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    position: "relative",
-                                    marginBottom: "26px"
-                                }}
-                            >
-                                <div className="title-inner-wrap">
-                                    <div className="sub-title-wrap">
-                                        <span className="sub-title">
-                                            <FiberManualRecordIcon 
-                                                sx={{
-                                                    marginRight: "5px",
-                                                    fontSize: "12px",
-                                                    fontWeight: "900",
-                                                    color: "#00c194"
-                                                }} 
-                                            />
-                                            LET'S TAKE A TOUR
-                                        </span>
-                                    </div>
-                                    <h2 className="main-title">
-                                        Search Property Smarter,
-                                        <br/>
-                                        Quicker & Anywhere
-                                    </h2>
-                                </div>
-                            </Box>
-                            <Box
-                                sx={{
-                                    width: "100%",
-                                    position: "relative",
-
-                                }}
-                            >
-                                <div className="play-button-2">
-                                    <div className="rt-video-icon">
-                                        <div className="video-icon-inner">
-                                            <div className="icon-left">
-                                                <div className="play-button-title">
-                                                    <a className="popup-youtube video-popup-icon-2" onClick={toggleVideo}>
-                                                        <span className="triangle color-triangle"></span>
-                                                        <span className="rt-ripple-effect" 
-                                                            style={{
-                                                                boxShadow: "0 0 0 20px rgb(0 193 148/ 50%), 0 0 0 30px rgb(0 193 148 / 40%), 0 0 0 40px rgb(0 193 148 / 30%)",
-                                                            }}></span>
-                                                    </a>
-                                                 </div>
-                                            </div>
-                                            <div className="icon-right">
-                                                <a className="popup-2-youtube" onClick={toggleVideo}>
-                                                    Play Video                
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Box>
-                        </Box>
-                    </Box>
-                    <Box
-                            sx={{
-                                width: {xs:"100%", lg:"62%", md:"62%", sm: "100%"},
-                            }}
-                            data-aos = "fade-up"
-                    >
-                            <div className="widget-wrap">
-                                <div className="element-widget">
-                                    <div className="widget-container">
-                                        <div className="title-wrapper">
-                                            <div className="bg-title-wrapper">
-                                                <span className="background-title">
-                                                    Property For All
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </Box>
-                </Box>
-            </Container>
-            <Container
-                sx={{
-                    padding: "90px 0px 50px 0px",
-                    minHeight: "593px",
-                    position: "relative"
-                }}
-            >
-                <Box
-                    sx={{
-                        maxWidth: "1240px",
-                        display: "flex",
-                        marginRight: "auto",
-                        marginLeft: "auto",
-                        position: "relative"
-                    }}
-                >
-                    <Box
-                        sx={{
-                            width: {sm: "100%"},
-                            position: "relative",
-                            minHeight: "1px",
-                            display: "flex",
-
-                        }}
-                    > 
-                        <Box
-                            sx={{
-                                padding: "10px",
-                                display: "flex",
-                                position: "relative",
-                                width: "100%",
-                                flexWrap: "wrap",
-                                alignContent: "flex-start",
-
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    width: "100%",
-                                    position: "relative",
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        margin: "0px",
-                                        padding: "0px 0px 42px 0px"
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            textAlign: "center",
-                                            position: "relative",
-                                            marginBottom: "40px"
-                                        }}
-                                    >
-                                        <Box
-                                            sx={{
-                                                position: "relative",
-                                            }}
-                                        >
-                                            <div className="top-sub-title">
-                                                EXPERTISE IS HERE
-                                            </div>
-                                            <h2 className="main-title-2">
-                                                Our Exclusive Agents
-                                            </h2>
-                                        </Box>
-                                    </Box>
-                                </Box>
-
-                            </Box>
-                        </Box>
-
-                    </Box>
-
-                </Box>
-                <Box
-                    sx={{
-                        width: "100%",
-                        display: "flex"
-                    }}
-                    data-aos = "fade-up"
-                >
-                    <Box
-                        sx={{
-                            maxWidth: "1240px",
-                            display: "flex",
-                            marginRight: "auto",
-                            marginLeft: "auto",
-                            position: "relative",
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                width: "100%", 
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    position: "relative",
-                                    width: "100%",
-                                    alignContent: "flex-start",
-                                    flexDirection: {xs: "column", sm: "column", md: "row", lg: "row"}
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        width: {xs: "150%", sm: "150%", md: "25%", lg: "25%"},
-                                        padding: "10px",
-                                        cursor: "pointer"
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            marginBottom: "30px"
-                                        }}
-                                    >
-                                        <div className="item-img">
-                                            <Image width="207" height="225" 
-                                                src="/agent-1.png" alt="anh1"
-                                                className="setup-img"    
-                                            />
-                                            <div className="category-box">
-                                                <div className="item-category">
-                                                    08 Listing
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item-content">
-                                            <div className="item-title">
-                                                <h3 className="agent-name"> Andren Willium</h3>
-                                                <h4 className="item-subtitle">
-                                                    <Link href="/about" className="address-subtitle">Sunshine</Link>
-                                                </h4>
-                                            </div>        
-                                        </div>
-                                        <div className="item-contact">
-                                            <div className="item-icon">
-                                                <LocalPhoneIcon 
-                                                    sx={{
-                                                        width: "16px",
-                                                        height: "18px"
-                                                    }}/>
-                                            </div>
-                                            <div className="item-phn-no">
-                                                Call: +121 511 4522                    
-                                            </div>
-                                        </div>
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{
-                                        width: {xs: "150%", sm: "150%", md: "25%", lg: "25%"},
-                                        padding: "10px",
-                                        cursor: "pointer"
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            marginBottom: "30px"
-                                        }}
-                                    >
-                                        <div className="item-img">
-                                            <Image width="237" height="255" 
-                                                src="/agent-2.png" alt="anh1"
-                                                className="setup-img"    
-                                            />
-                                            <div className="category-box">
-                                                <div className="item-category">
-                                                    06 Listing
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item-content">
-                                            <div className="item-title">
-                                                <h3 className="agent-name"> Andren Willium</h3>
-                                                <h4 className="item-subtitle">
-                                                    <Link href="/about" className="address-subtitle">Sunshine</Link>
-                                                </h4>
-                                            </div>        
-                                        </div>
-                                        <div className="item-contact">
-                                            <div className="item-icon">
-                                                <LocalPhoneIcon 
-                                                    sx={{
-                                                        width: "16px",
-                                                        height: "18px"
-                                                    }}/>
-                                            </div>
-                                            <div className="item-phn-no">
-                                                Call: +121 511 4522                    
-                                            </div>
-                                        </div>
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{
-                                        width: {xs: "150%", sm: "150%", md: "25%", lg: "25%"},
-                                        padding: "10px",
-                                        cursor: "pointer"
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            marginBottom: "30px"
-                                        }}
-                                    >
-                                        <div className="item-img">
-                                            <Image width="237" height="255" 
-                                                src="/agent-3.png" alt="anh1"
-                                                className="setup-img"    
-                                            />
-                                            <div className="category-box">
-                                                <div className="item-category">
-                                                    11 Listing
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item-content">
-                                            <div className="item-title">
-                                                <h3 className="agent-name"> Andren Willium</h3>
-                                                <h4 className="item-subtitle">
-                                                    <Link href="/about" className="address-subtitle">Sunshine</Link>
-                                                </h4>
-                                            </div>        
-                                        </div>
-                                        <div className="item-contact">
-                                            <div className="item-icon">
-                                                <LocalPhoneIcon 
-                                                    sx={{
-                                                        width: "16px",
-                                                        height: "18px"
-                                                    }}/>
-                                            </div>
-                                            <div className="item-phn-no">
-                                                Call: +121 511 4522                    
-                                            </div>
-                                        </div>
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{
-                                        width: {xs: "150%", sm: "150%", md: "25%", lg: "25%"},
-                                        padding: "10px",
-                                        cursor: "pointer"
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            marginBottom: "30px"
-                                        }}
-                                    >
-                                        <div className="item-img">
-                                            <Image width="237" height="255" 
-                                                src="/agent-4.png" alt="anh1"
-                                                className="setup-img"    
-                                            />
-                                            <div className="category-box">
-                                                <div className="item-category">
-                                                    07 Listing
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item-content">
-                                            <div className="item-title">
-                                                <h3 className="agent-name"> Andren Willium</h3>
-                                                <h4 className="item-subtitle">
-                                                    <Link href="/about" className="address-subtitle">Sunshine</Link>
-                                                </h4>
-                                            </div>        
-                                        </div>
-                                        <div className="item-contact">
-                                            <div className="item-icon">
-                                                <LocalPhoneIcon 
-                                                    sx={{
-                                                        width: "16px",
-                                                        height: "18px"
-                                                    }}/>
-                                            </div>
-                                            <div className="item-phn-no">
-                                                Call: +121 511 4522                    
-                                            </div>
-                                        </div>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </Box>
-
-                    </Box>
-                </Box>
-            </Container>
-            <Container
-                sx={{
-                    border: "1px solid #E8E8E8",
-                    transition: "background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s",
-                    padding: "70px 0px 80px 0px",
-                    position: "relative",
-                    marginLeft: "0px",
-                    maxWidth: "100% !important",
-                    display:"flex"
-                }}
-            >
-                <Box
-                    sx={{
-                        maxWidth: "1240px",
-                        display: "flex",
-                        marginRight: "auto",
-                        marginLeft: "auto",
-                        position: "relative"
-                    }}
-                >
-                    <Box
-                        sx={{
-                            position: "relative",
-                            minHeight: "1px",
-                            display: "flex"
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                position: "relative",
-                                width: "100%",
-                                flexWrap: "wrap",
-                                alignContent: "flex-start"
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    position: "relative",
-                                    width: "100%",
-                                    height: "100%",
-                                    zIndex: "1",
-                                    display: "flex",
-                                    transitionProperty: "transform",
-
-                                }}
-                            >
-                                <div className="swiper-slide slide1">
-                                    <img src="/client-logo-1.svg" alt="hình 1" width="180" height="100" className="swiper-slide-img" />
-                                </div>
-                                <div className="swiper-slide slide2">
-                                    <img src="/client-logo-2.svg" alt="hình 1" width="180" height="100" className="swiper-slide-img" />
-                                </div>
-                                <div className="swiper-slide slide3">
-                                    <img src="/client-logo-3.svg" alt="hình 1" width="180" height="100" className="swiper-slide-img" />
-                                </div>
-                                <div className="swiper-slide slide4">
-                                    <img src="/client-logo-4.svg" alt="hình 1" width="180" height="100" className="swiper-slide-img" />
-                                </div>
-                                <div className="swiper-slide slide5">
-                                    <img src="/client-logo-5.svg" alt="hình 1" width="180" height="100" className="swiper-slide-img" />
-                                </div>
-                            </Box>
-                        </Box>
-                    </Box>
-                </Box>
-            </Container>
-            <Container
-                sx={{
-                    transition: "background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;",
-                    padding: "50px 0px 50px 0px",
-                    position: "relative",
-                    marginBottom: {xs: "55px"}
-                }}
-            >
-                <Box
-                    sx={{
-                        position: "static",
-                        maxWidth: "1240px",
-                        display: "flex",
-                        marginRight: " auto",
-                        marginLeft: "auto",
-                        flexDirection: {xs: "column", sm: "column ", md: "row"}
-
-                    }}
-
-                    data-aos = "fade-up" 
-                >
-                    <Box
-                        sx={{
-                            position: "static",
-                            width: {sm: "100%", md: "37.833%"},
-                            minHeight: "1px",
-                            display: "flex",
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                alignContent: "center",
-                                alignItems: "center",
-                                position: "static",
-                                padding: "10px",
-                                display: "flex",
-                                width: "100%",
-                                flexWrap: "wrap",
-
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    marginBottom: "0px",
-                                    width: "100%",
-                                    position: "relative",
-
-                                }}
-                            >
-                                <div className="elementor-widget-container">
-	                        		<div className="section-title-wrapper">                     
-                                        <div className="title-inner-wrapper">
-                                            <h2 className="main-title">Sign up for newsletter </h2>
-                                            <div className="description">
-                                                <p>Get latest news and update</p>
-                                            </div>
-                                        </div>
-                                    </div>		
-                                </div>
-
-                                <div className="elementor-widget-container-img" data-aos = "fade-right">
-			                        <img width="357" height="131" src="/ct-layer-2.png" class="rt-image-placeholder" alt="Animated Image" decoding="async" loading="lazy" title="" />			
-				                </div>
-                            </Box>
-                        </Box>
-                    </Box>
-
-                    <Box
-                        sx={{
-                            position: "static",
-                            width: {sm: "100%", md: "62.167%"},
-                            minHeight: "1px",
-                            display: "flex"
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                alignContent: "center",
-                                alignItems: "center",
-                                position: "static",
-                                padding: "10px",
-                                display: "flex",
-                                width: "100%",
-                                flexWrap: "wrap",
-
-                            }}
-                        >
-                            <div className="input-container">
-                                <TextField id="outlined-basic" label="Enter e-mail address" variant="outlined" 
-                                sx={{
-                                    width: "100%",
-                                    position:"relative"
-                                }}/>
-                                <Button
-                                        variant= "contained"
-                                        className="subscribe-btn"
-                                    >
-                                        SUBSCRIBE
-                                </Button> 
-                            </div>
-                        </Box>
-                    </Box> 
-                </Box>
-            </Container>
-        </div>
+        </>
     ) 
 }
-
 
 export default About;
