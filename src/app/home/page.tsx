@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, useEffect } from "react";
 
 import Image from "next/image";
 
@@ -14,13 +14,13 @@ import Typography from "@mui/material/Typography";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
+import { Alert, CardActionArea, FormControl } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
@@ -28,6 +28,8 @@ import Paper from "@mui/material/Paper";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { useMediaQuery } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -41,6 +43,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import KeyIcon from "@mui/icons-material/Key";
 import PhoneIcon from "@mui/icons-material/Phone";
 import GroupsIcon from "@mui/icons-material/Groups";
+import ProductCard from "@/components/productCard/productCard";
 
 const categories: string[] = [
   "Apartments",
@@ -169,6 +172,37 @@ let agents: {
 
 const Home = () => {
   const matches = useMediaQuery("(min-width:600px)");
+
+  const [initial, setInitial] = useState(true);
+  const [listingTypes, setListingTypes] = useState([]);
+  const [selectedListingType, setSelectedListingType] = useState("");
+
+  interface ListingTypes {
+    id: string;
+    name: string;
+  }
+
+  useEffect(() => {
+    getListingTypes();
+  }, []);
+
+  const getListingTypes = () => {
+    api
+      .get("ListingTypes")
+      .then((res) => {
+        setListingTypes(res.data);
+        console.log(listingTypes);
+        setInitial(true);
+      })
+      .catch((error) => {
+        // alert(error);
+      });
+  };
+
+  const handleSelectedListingType = (event: SelectChangeEvent) => {
+    setSelectedListingType(event.target.value as string);
+  };
+
   return (
     <div
       style={{
@@ -243,56 +277,53 @@ const Home = () => {
             </ButtonGroup>
             <Grid container rowSpacing={1}>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <Box
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "4px",
-                  }}
-                >
-                  <TextField
-                    label="Enter Keyword here ..."
-                    variant="outlined"
-                    sx={{ backgroundColor: "transparent", width: "100%" }}
-                  />
-                </Box>
+                <TextField
+                  label="Enter Keyword here ..."
+                  sx={{ backgroundColor: "white", width: "100%" }}
+                />
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <Box
+                <FormControl
                   sx={{
                     backgroundColor: "white",
-                    borderRadius: "4px",
                   }}
+                  fullWidth
                 >
+                  {/* <InputLabel id="demo-simple-select-label">
+                    Select Type
+                  </InputLabel> */}
                   <Select
-                    label="Select Type"
-                    sx={{
-                      width: "100%",
-                      backgroundColor: "transparent",
-                    }}
+                    // labelId="demo-simple-select-label"
+                    value={selectedListingType}
+                    onChange={handleSelectedListingType}
                   >
-                    {types.map((type) => (
-                      <MenuItem key={type}>{type}</MenuItem>
-                    ))}
+                    <MenuItem value="">
+                      <em>Placeholder</em>
+                    </MenuItem>
+                    {listingTypes.length > 0
+                      ? listingTypes.map((type: ListingTypes) => (
+                          <MenuItem key={type.id} value={type.id}>
+                            {type.name}
+                          </MenuItem>
+                        ))
+                      : types.map((type) => (
+                          <MenuItem key={type} value={type}>
+                            {type}
+                          </MenuItem>
+                        ))}
                   </Select>
-                </Box>
+                </FormControl>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <Box
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "4px",
-                  }}
+                <TextField
+                  label="Select Location"
+                  select
+                  sx={{ backgroundColor: "white", width: "100%" }}
                 >
-                  <TextField
-                    label="Select Location"
-                    select
-                    sx={{ backgroundColor: "transparent", width: "100%" }}
-                  >
-                    {locations.map((location) => (
-                      <MenuItem key={location}>{location}</MenuItem>
-                    ))}
-                  </TextField>
-                </Box>
+                  {locations.map((location) => (
+                    <MenuItem key={location}>{location}</MenuItem>
+                  ))}
+                </TextField>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <Button
@@ -461,89 +492,7 @@ const Home = () => {
           <Grid container spacing={4}>
             {temp.map((temp) => (
               <Grid key={temp} item xs={12} sm={12} md={4} lg={4}>
-                <Card className={Homestyle.cardContainer}>
-                  <div className={Homestyle.productThumb}>
-                    <div className={Homestyle.productType}>
-                      <span className={Homestyle.productTypeBadge}>
-                        For Sell
-                      </span>
-                    </div>
-                    <CardMedia
-                      className={Homestyle.cardImg}
-                      component="img"
-                      alt="picture"
-                      height="240"
-                      image="/mike_hussy4-400x240.jpg"
-                    />
-                    <Typography className={Homestyle.productPrice}>
-                      $ 50,000
-                    </Typography>
-                    <div className={Homestyle.listingAction}>
-                      <IconButton
-                        aria-label="like"
-                        className={Homestyle.actionBtn}
-                      >
-                        <FavoriteBorderIcon className={Homestyle.icon} />
-                      </IconButton>
-                      <IconButton
-                        aria-label="compare"
-                        className={Homestyle.actionBtn}
-                      >
-                        <CompareArrowsIcon className={Homestyle.icon} />
-                      </IconButton>
-                    </div>
-                  </div>
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      component="div"
-                      sx={{ color: "#00c194" }}
-                    >
-                      Commercial
-                    </Typography>
-                    <Typography
-                      noWrap
-                      gutterBottom
-                      variant="h3"
-                      component="h3"
-                      className={Homestyle.title}
-                    >
-                      Countryside Modern Lake View Restaurant
-                    </Typography>
-                    <div className={Homestyle.entryMeta}>
-                      <LocationOnIcon />
-                      <Typography gutterBottom>New Jersey</Typography>
-                    </div>
-                    <Grid container className={Homestyle.listInformation}>
-                      <Grid item className={Homestyle.productFeatures}>
-                        <BedIcon className={Homestyle.productFeaturesIcon} />
-                        <Typography>Beds 4</Typography>
-                      </Grid>
-                      <Grid className={Homestyle.productFeatures}>
-                        <ShowerIcon className={Homestyle.productFeaturesIcon} />
-                        <Typography>Baths 2</Typography>
-                      </Grid>
-                      <Grid className={Homestyle.productFeatures}>
-                        <AspectRatioIcon
-                          className={Homestyle.productFeaturesIcon}
-                        />
-                        <Typography>2000 Sqft</Typography>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                  <Divider className={Homestyle.cardDivider} />
-                  <CardActions className={Homestyle.cardAction}>
-                    <div className={Homestyle.author}>
-                      <Avatar
-                        alt="Tom Steven"
-                        src="/tom_steven-150x150.jpg"
-                        className={Homestyle.img}
-                      />
-                      <Typography>By Tom Steven</Typography>
-                    </div>
-                    <Button className={Homestyle.cardButton}>Details</Button>
-                  </CardActions>
-                </Card>
+                <ProductCard view="grid" />
               </Grid>
             ))}
           </Grid>
