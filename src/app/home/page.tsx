@@ -207,6 +207,7 @@ const Home = () => {
     <div
       style={{
         minHeight: "100vh",
+        backgroundColor: "white",
       }}
     >
       {/* container 1 */}
@@ -492,7 +493,13 @@ const Home = () => {
           <Grid container spacing={4}>
             {temp.map((temp) => (
               <Grid key={temp} item xs={12} sm={12} md={4} lg={4}>
-                <ProductCard view="grid" />
+                <ProductCard
+                  view="grid"
+                  product={{
+                    id: 1,
+                    title: "countryside-modern-lake-view-restaurant",
+                  }}
+                />
               </Grid>
             ))}
           </Grid>

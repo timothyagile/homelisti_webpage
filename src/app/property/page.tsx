@@ -4,8 +4,6 @@ import { useState } from "react";
 import "../globals.css";
 import Style from "./property.module.scss";
 
-import Image from "next/image";
-
 import {
   Container,
   Typography,
@@ -29,7 +27,6 @@ import {
   FormControlLabel,
   Checkbox,
   ButtonGroup,
-  IconButton,
 } from "@mui/material";
 
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -43,6 +40,7 @@ import ListIcon from "@mui/icons-material/List";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ProductCard from "@/components/productCard/productCard";
 import ScrollToTopButton from "@/components/scrollToTopButton";
+import NewsLetter from "@/components/newsLetter/newsLetter";
 
 const types: string[] = ["Sell", "Buy", "Rent"];
 
@@ -386,11 +384,23 @@ const Property = () => {
                 {temp.slice(0, initialProductListing).map((item) =>
                   view === "grid" ? (
                     <Grid item xs={12} sm={12} md={4} lg={4} key={item}>
-                      <ProductCard view={view} />
+                      <ProductCard
+                        view={view}
+                        product={{
+                          id: 1,
+                          title: "countryside-modern-lake-view-restaurant",
+                        }}
+                      />
                     </Grid>
                   ) : (
                     <Grid item xs={12} sm={12} md={12} lg={12} key={item}>
-                      <ProductCard view={view} />
+                      <ProductCard
+                        view={view}
+                        product={{
+                          id: 1,
+                          title: "countryside-modern-lake-view-restaurant",
+                        }}
+                      />
                     </Grid>
                   )
                 )}
@@ -416,41 +426,7 @@ const Property = () => {
             </Grid>
           </Grid>
         </Container>
-        <div className={Style.newsLetterWrapper}>
-          <Container maxWidth="xl">
-            <div className={Style.container}>
-              <div>
-                <Typography
-                  variant="h2"
-                  component="h2"
-                  className={Style.mainTitle}
-                >
-                  Sign up for newsletter
-                </Typography>
-                <Typography className={Style.description}>
-                  Get latest news and update
-                </Typography>
-              </div>
-              <div className={Style.emailWrap}>
-                <input
-                  type="email"
-                  placeholder="Enter your e-mail address"
-                  className={Style.emailInput}
-                />
-                <div>
-                  <Button className={Style.subcribeBtn}>Subcribe</Button>
-                </div>
-              </div>
-            </div>
-            <Image
-              src="/newsletter-bg.png"
-              alt="newsletter-bg"
-              width={357}
-              height={131}
-              className={Style.bgImage}
-            />
-          </Container>
-        </div>
+        <NewsLetter />
       </div>
     </ThemeProvider>
   );
