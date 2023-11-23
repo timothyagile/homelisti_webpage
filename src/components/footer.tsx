@@ -56,7 +56,7 @@ function Footer() {
           >
             <Box sx={{ "&:hover": { cursor: "pointer" } }}>
               <Image
-                src="./logo_light.svg"
+                src="/logo_light.svg"
                 width={136}
                 height={36}
                 alt="Logo"

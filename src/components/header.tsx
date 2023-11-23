@@ -287,7 +287,7 @@ function Header() {
           sx={{ justifyContent: "space-between", height: "86px" }}
         >
           <Box sx={{ "&:hover": { cursor: "pointer" } }}>
-            <Image src="./logo_light.svg" width={148} height={39} alt="Logo" />
+            <Image src="/logo_light.svg" width={148} height={39} alt="Logo" />
           </Box>
 
           <Box
