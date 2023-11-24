@@ -1,5 +1,5 @@
-"use client";
-import * as React from "react";
+"use-client"
+import { createContext } from 'react'
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
@@ -10,52 +10,11 @@ import Image from "next/image";
 import styled from 'styled-components';
 import './page.css'
 import LinearProgress, {linearProgressClasses} from "@mui/material/LinearProgress";
-import YouTube from 'react-youtube';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import Aos from "aos";
-import 'aos/dist/aos.css'
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import TextField from '@mui/material/TextField';
-import Button from "@mui/material/Button";
 
 
-Aos.init()
 
-function About() {
-   
-    const [scrollPosition, setScrollPosition] = React.useState(0);
 
-    const handleScroll = () => {
-      const position = window.pageYOffset ;
-      setScrollPosition(position);
-    };
-
-    React.useEffect(() => {
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }, []);
-
-    // Tính toán backgroundPositionY dựa trên scrollPosition với sự thay đổi 1px khi lăn chuột xuống
-    const backgroundPositionY1 = `center ${850 - scrollPosition*0.4}px`;
-    const backgroundPositionY2 = `center ${850 - scrollPosition*0.6}px`;
-    const [showVideo, setShowVideo] = React.useState(false);
-
-    const toggleVideo = () => {
-      setShowVideo(!showVideo);
-      const video = document.getElementById('video')
-        if (video){
-            video.style.display = 'block'
-        }
-    };
-    
-    const handleVideoClose = () => {
-        const video = document.getElementById('video')
-        if (video){
-            video.style.display = 'none'
-        }
-    }
+const About = () => {
     return (
         <div style={{
             minHeight: "3065px",
@@ -66,14 +25,11 @@ function About() {
             <Container 
                 maxWidth="xl"
                 sx={{
-                    maxWidth:{xs:"738px", md:"950px", lg:"1220px"},
+                    maxWidth:{xs:"738px", md:"950px", lg:"1230px"},
                     backgroundColor: "#fff",
                     marginTop: "86px",
-                    minHeight:"100vh",
-                    padding: {xs:"column", lg:"row", md:"0px"},
-                    display: "flex",
-                    flexDirection:"column",
-                    alignItems: "center"
+                    minHeight:"500vh",
+                    padding: {xs:"column", lg:"row", md:"0px"}
                 }}
             >
                 <Box
@@ -81,8 +37,7 @@ function About() {
                         width: "100%",
                         backgroundColor: "white",
                         zIndex:"100",
-                        padding: "30px 0px",
-                        borderBottom:" 1px solid #deede9 "
+                        padding: "30px 0px"
                     }}
                     >
                         <div 
@@ -125,15 +80,22 @@ function About() {
                             </div>
                         </div>
                 </Box>
+                <Divider 
+                    sx={{
+                        maxWidth: "100% !important",
+                        borderColor: "#deede9 !important",
+                        opacity: "1 !important"
+                    }} 
+                />
+
                 <Box
                     sx={{
                         width: "100%",
-                        paddingTop: "120px",
-                        paddingBottom: "120px"
                     }}
                 >
                     <Box
                         sx={{
+                            paddingTop: "100px",
                             display: "flex",
                             flexDirection: {xs:"column", lg:"row", md:"row", sm: "column"},
                             alignItems: {xs:"center", sm: "center", md:"flex-start !important"},
@@ -311,7 +273,6 @@ function About() {
                                 ".MuiBox-root.css-1a0qsji": "-webkit-align-items: flex-start !important",
                                 width: "100%"
                             }}
-                            data-aos = "fade-right"
                         >
                             <Box
                                 sx = {{
@@ -467,26 +428,16 @@ function About() {
                                 </Box>
                             </Box>
                         </Box>
-                        <div className="image-container" data-aos = "fade-left">
-                          <Image
+                        <Image 
                             src="/about-meet-2.jpg"
                             alt="Logo"
-                            width={610}
-                            height={460}
-                            className="image-lg"
-                            loading="lazy"
-                          />
-                          <div className="play-button">
-                            <a className="popup-youtube video-popup-icon" onClick={toggleVideo}>
-                                <span className="triangle"></span>
-                                <span className="rt-ripple-effect" 
-                                    style={{
-                                        boxShadow: "0 0 0 20px rgb(9 32 56 / 50%), 0 0 0 30px rgb(9 32 56 / 40%), 0 0 0 40px rgb(9 32 56 / 30%)",
-                                    }}></span>
-                            </a>
-                            
-                          </div>
-                        </div>
+                            width={610}  
+                            height={460} 
+                            className="image-lg" 
+                        />
+                    </Box>
+                    <Box>
+
                     </Box>
                 </Box>
                 
@@ -1113,6 +1064,5 @@ function About() {
         </div>
     ) 
 }
-
 
 export default About;

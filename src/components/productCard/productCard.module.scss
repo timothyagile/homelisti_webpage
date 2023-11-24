@@ -1,6 +1,10 @@
 .cardContainer {
   display: flex;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   .contentWrap {
     flex-grow: 1;
   }
