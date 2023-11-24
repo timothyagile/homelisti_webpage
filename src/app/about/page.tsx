@@ -1,5 +1,6 @@
-"use-client"
+"use client"
 import { createContext } from 'react'
+import * as React from "react";
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
@@ -10,11 +11,48 @@ import Image from "next/image";
 import styled from 'styled-components';
 import './page.css'
 import LinearProgress, {linearProgressClasses} from "@mui/material/LinearProgress";
+import YouTube from 'react-youtube';
+import Aos from "aos"
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'; 
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
 
+interface BackgroundPosition {
+    sm: number;
+    md: number;
+}
 
-
-
-const About = () => {
+function About() {
+    const [scrollPosition, setScrollPosition] = React.useState(0);
+    const handleScroll = () => {
+      const position = window.pageYOffset ;
+      setScrollPosition(position);
+    };
+    React.useEffect(() => {
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
+    // Tính toán backgroundPositionY dựa trên scrollPosition với sự thay đổi 1px khi lăn chuột xuống
+    const backgroundPositionY1 = `center ${850 - scrollPosition*0.4}px`;
+    const backgroundPositionY2 = `center ${850 - scrollPosition*0.6}px`;
+    const [showVideo, setShowVideo] = React.useState(false);
+    const toggleVideo = () => {
+      setShowVideo(!showVideo);
+      const video = document.getElementById('video')
+        if (video){
+            video.style.display = 'block'
+        }
+    };
+    
+    const handleVideoClose = () => {
+        const video = document.getElementById('video')
+        if (video){
+            video.style.display = 'none'
+        }
+    }
     return (
         <div style={{
             minHeight: "3065px",
@@ -28,8 +66,8 @@ const About = () => {
                     maxWidth:{xs:"738px", md:"950px", lg:"1230px"},
                     backgroundColor: "#fff",
                     marginTop: "86px",
-                    minHeight:"500vh",
-                    padding: {xs:"column", lg:"row", md:"0px"}
+                    minHeight:"100vh",
+                    padding: {xs:"", lg:"", md:"0px 0px 120px 0px"}
                 }}
             >
                 <Box
@@ -471,7 +509,7 @@ const About = () => {
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundAttachment: "fixed",
-                    backgroundPosition: {sm: backgroundPositionY1, md: backgroundPositionY2},
+                    backgroundPosition: { sm: backgroundPositionY1, md: backgroundPositionY2 },
                     padding: {xs: "0px !important", sm: "0px !important", md: "0px !important", lg: ""},
                     display:"flex",
                     justifyContent: "center",
@@ -556,7 +594,7 @@ const About = () => {
                                         <div className="video-icon-inner">
                                             <div className="icon-left">
                                                 <div className="play-button-title">
-                                                    <a className="popup-youtube video-popup-icon-2" onClick={toggleVideo}>
+                                                    <a className="popup-youtube video-popup-icon-2" >
                                                         <span className="triangle color-triangle"></span>
                                                         <span className="rt-ripple-effect" 
                                                             style={{
@@ -566,7 +604,7 @@ const About = () => {
                                                  </div>
                                             </div>
                                             <div className="icon-right">
-                                                <a className="popup-2-youtube" onClick={toggleVideo}>
+                                                <a className="popup-2-youtube" >
                                                     Play Video                
                                                 </a>
                                             </div>

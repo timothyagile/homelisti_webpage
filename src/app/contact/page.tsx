@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import Aos from "aos";
+import Aos from "aos"
 import 'aos/dist/aos.css'
 import Style from "./contact.module.scss"
 import Container from "@mui/material/Container";
