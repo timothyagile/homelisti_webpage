@@ -58,7 +58,8 @@ function About() {
     }
     return (
         <div style={{
-            minHeight: "3065px"
+            minHeight: "3065px",
+            backgroundColor: "#fff"
         }}
             className="main-container"
         >
@@ -1066,7 +1067,7 @@ function About() {
                                 </div>
 
                                 <div className="elementor-widget-container-img" data-aos = "fade-right">
-			                        <img width="357" height="131" src="/ct-layer-2.png" class="rt-image-placeholder" alt="Animated Image" decoding="async" loading="lazy" title="" />			
+			                        <img width="357" height="131" src="/ct-layer-2.png" className="rt-image-placeholder" alt="Animated Image" decoding="async" loading="lazy" title="" />			
 				                </div>
                             </Box>
                         </Box>

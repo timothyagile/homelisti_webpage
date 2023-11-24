@@ -280,7 +280,7 @@ function Header() {
         maxWidth:{xs:"1280px !important", md:" ",}
       }}>
         <Toolbar disableGutters sx={{justifyContent:"space-between", height: "86px" }}>
-      <Container
+          <Container
         maxWidth="xl"
         sx={{
           margin: "auto",
@@ -645,6 +645,8 @@ function Header() {
               ))}
             </Menu>
           </Box>
+        </Toolbar>
+          </Container>
         </Toolbar>
       </Container>
     </AppBar>
