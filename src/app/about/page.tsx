@@ -760,11 +760,13 @@ function About() {
                                         padding: "10px",
                                         cursor: "pointer"
                                     }}
+                                    className = "main-contact"
                                 >
                                     <Box
                                         sx={{
                                             marginBottom: "30px"
                                         }}
+                                        className = "scaleUpCenter"
                                     >
                                         <div className="item-img">
                                             <Image width="207" height="225" 
@@ -805,11 +807,13 @@ function About() {
                                         padding: "10px",
                                         cursor: "pointer"
                                     }}
+                                    className = "main-contact"
                                 >
                                     <Box
                                         sx={{
                                             marginBottom: "30px"
                                         }}
+                                        className = "scaleUpCenter"
                                     >
                                         <div className="item-img">
                                             <Image width="237" height="255" 
@@ -850,11 +854,13 @@ function About() {
                                         padding: "10px",
                                         cursor: "pointer"
                                     }}
+                                    className = "main-contact"
                                 >
                                     <Box
                                         sx={{
                                             marginBottom: "30px"
                                         }}
+                                        className = "scaleUpCenter"
                                     >
                                         <div className="item-img">
                                             <Image width="237" height="255" 
@@ -895,11 +901,13 @@ function About() {
                                         padding: "10px",
                                         cursor: "pointer"
                                     }}
+                                    className = "main-contact"
                                 >
                                     <Box
                                         sx={{
                                             marginBottom: "30px"
                                         }}
+                                        className = "scaleUpCenter"
                                     >
                                         <div className="item-img">
                                             <Image width="237" height="255" 
