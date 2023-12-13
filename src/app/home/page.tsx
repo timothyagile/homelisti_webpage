@@ -176,6 +176,297 @@ const Home = () => {
   const [initial, setInitial] = useState(true);
   const [listingTypes, setListingTypes] = useState([]);
   const [selectedListingType, setSelectedListingType] = useState("");
+  const [listingsData, setListingsData] = useState([
+    {
+      listing_id: 17353,
+      author_id: 4,
+      title: "Modern apartment with a pole for buy",
+      price: "350,000",
+      category: {
+        term_id: 204,
+        name: "Restaurant",
+        slug: "restaurant",
+        count: 2,
+      },
+      listingtype: {
+        id: "buy",
+        name: "Buy",
+      },
+      view_count: 587,
+      contact: {
+        id: 1,
+        location: {
+          term_id: 172,
+          name: "New Jersey",
+          slug: "new-jersey",
+          count: 6,
+        },
+        address: "South stump tavern road, 42",
+        phone: "+052015698546",
+        whatsapp_number: "+052015698546",
+        email: "tom_steven@gmail.com",
+      },
+      images: [
+        {
+          ID: 17354,
+          title: "rosy_janner1",
+          url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner1.jpg",
+          alt: "",
+        },
+        {
+          ID: 17355,
+          title: "rosy_janner2",
+          url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner2.jpg",
+          alt: "",
+        },
+        {
+          ID: 17356,
+          title: "rosy_janner3",
+          url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner3.jpg",
+          alt: "",
+        },
+      ],
+      custom_fields: [
+        {
+          id: 4216,
+          label: "Amenities",
+          value: [
+            {
+              id: 1,
+              data: "tv-cable",
+            },
+            {
+              id: 2,
+              data: "air-conditioning",
+            },
+            {
+              id: 3,
+              data: "barbeque",
+            },
+            {
+              id: 4,
+              data: "gym",
+            },
+            {
+              id: 5,
+              data: "swimming-pool",
+            },
+            {
+              id: 6,
+              data: "laundry",
+            },
+            {
+              id: 7,
+              data: "microwave",
+            },
+            {
+              id: 8,
+              data: "outdoor-shower",
+            },
+            {
+              id: 9,
+              data: "lawn",
+            },
+            {
+              id: 10,
+              data: "refrigerator",
+            },
+            {
+              id: 11,
+              data: "sauna",
+            },
+            {
+              id: 12,
+              data: "washer",
+            },
+          ],
+          choices: [
+            {
+              id: "tv-cable",
+              name: "TV Cable",
+            },
+            {
+              id: "air-conditioning",
+              name: "Air Conditioning",
+            },
+            {
+              id: "barbeque",
+              name: "Barbeque",
+            },
+            {
+              id: "gym",
+              name: "Gym",
+            },
+            {
+              id: "swimming-pool",
+              name: "Swimming Pool",
+            },
+            {
+              id: "laundry",
+              name: "Laundry",
+            },
+            {
+              id: "microwave",
+              name: "Microwave",
+            },
+            {
+              id: "outdoor-shower",
+              name: "Outdoor Shower",
+            },
+            {
+              id: "lawn",
+              name: "Lawn",
+            },
+            {
+              id: "refrigerator",
+              name: "Refrigerator",
+            },
+            {
+              id: "sauna",
+              name: "Sauna",
+            },
+            {
+              id: "washer",
+              name: "Washer",
+            },
+          ],
+        },
+        {
+          id: 4323,
+          label: "Type",
+          value: [
+            {
+              id: 13,
+              data: "apartment",
+            },
+          ],
+          choices: [
+            {
+              id: "apartment",
+              name: "Apartment",
+            },
+            {
+              id: "office",
+              name: "Office",
+            },
+            {
+              id: "restaurant",
+              name: "Restaurant",
+            },
+          ],
+        },
+        {
+          id: 4322,
+          label: "Parking",
+          value: [
+            {
+              id: 16,
+              data: "yes",
+            },
+          ],
+          choices: [
+            {
+              id: "yes",
+              name: "Yes",
+            },
+            {
+              id: "no",
+              name: "No",
+            },
+          ],
+        },
+        {
+          id: 4316,
+          label: "Bedroom",
+          value: [
+            {
+              id: 20,
+              data: "3",
+            },
+          ],
+          choices: [
+            {
+              id: "1",
+              name: "1",
+            },
+            {
+              id: "2",
+              name: "2",
+            },
+            {
+              id: "3",
+              name: "3",
+            },
+            {
+              id: "4",
+              name: "4",
+            },
+            {
+              id: "5",
+              name: "5",
+            },
+            {
+              id: "6",
+              name: "6",
+            },
+          ],
+        },
+        {
+          id: 4321,
+          label: "Bath",
+          value: [
+            {
+              id: 26,
+              data: "3",
+            },
+          ],
+          choices: [
+            {
+              id: "1",
+              name: "1",
+            },
+            {
+              id: "2",
+              name: "2",
+            },
+            {
+              id: "3",
+              name: "3",
+            },
+            {
+              id: "4",
+              name: "4",
+            },
+          ],
+        },
+        {
+          id: 4692,
+          label: "Purpose",
+          value: [
+            {
+              id: 28,
+              data: "sell",
+            },
+          ],
+          choices: [
+            {
+              id: "sell",
+              name: "Sell",
+            },
+            {
+              id: "buy",
+              name: "Buy",
+            },
+            {
+              id: "rent",
+              name: "For Rent",
+            },
+          ],
+        },
+      ],
+      description: "",
+    }
+  ]);
 
   interface ListingTypes {
     id: string;
@@ -183,19 +474,19 @@ const Home = () => {
   }
 
   useEffect(() => {
-    getListingTypes();
+    handleLoadListing();
   }, []);
 
-  const getListingTypes = () => {
+  const handleLoadListing = () => {
     api
-      .get("ListingTypes")
+      .get("listings")
       .then((res) => {
-        setListingTypes(res.data);
-        console.log(listingTypes);
-        setInitial(true);
+        if (res.status === 200) {
+          setListingsData(res.data);
+        }
       })
       .catch((error) => {
-        // alert(error);
+        console.log(error);
       });
   };
 
@@ -222,7 +513,7 @@ const Home = () => {
           minHeight: "732px",
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Box
             sx={{
               margin: "auto",
@@ -364,7 +655,7 @@ const Home = () => {
           margin: "90px 0 90px 0",
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid container spacing={2} rowSpacing={2} columnSpacing={2}>
             <Grid
               item
@@ -441,7 +732,7 @@ const Home = () => {
 
       {/* container 3 */}
       <Box className={Homestyle.container3}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid container className={Homestyle.sectionTitle}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <Typography className={Homestyle.subTitle}>
@@ -491,15 +782,9 @@ const Home = () => {
             </Grid>
           </Grid>
           <Grid container spacing={4}>
-            {temp.map((temp) => (
-              <Grid key={temp} item xs={12} sm={12} md={4} lg={4}>
-                <ProductCard
-                  view="grid"
-                  product={{
-                    id: 1,
-                    title: "countryside-modern-lake-view-restaurant",
-                  }}
-                />
+            {listingsData.slice(0, 6).map((item, i) => (
+              <Grid key={i} item xs={12} sm={12} md={4} lg={4}>
+                <ProductCard view="grid" product={item} />
               </Grid>
             ))}
           </Grid>
@@ -508,7 +793,7 @@ const Home = () => {
 
       {/* container 4 */}
       <Box className={Homestyle.container4}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <div className={Homestyle.title}>
             <Typography className={Homestyle.subTitle}>
               Our working proccess
@@ -632,7 +917,7 @@ const Home = () => {
 
       {/* Container 6 */}
       <Box className={Homestyle.container6}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <div className={Homestyle.title}>
             <Typography className={Homestyle.subTitle}>
               EXPERTISE IS HERE

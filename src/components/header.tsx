@@ -276,10 +276,10 @@ function Header() {
       }}
     >
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         sx={{
           margin: "auto",
-          maxWidth:{xs:"1285px !important", md:" ",}
+          // maxWidth: { xs: "1285px !important", md: " " },
         }}
       >
         <Toolbar
@@ -438,7 +438,7 @@ function Header() {
               badgeContent={4}
               sx={{
                 alignItems: "center",
-                display: {md: "none", lg: "flex"}
+                display: { md: "none", lg: "flex" },
               }}
             >
               <IconButton
@@ -458,7 +458,7 @@ function Header() {
                   marginLeft: "10px",
                   height: "40px",
                   width: "40px",
-                  display: {md: "none", lg: "flex"}
+                  display: { md: "none", lg: "flex" },
                 }}
               >
                 <CompareArrowsIcon
@@ -472,7 +472,7 @@ function Header() {
               badgeContent={4}
               sx={{
                 alignItems: "center",
-                display: {md: "none", lg: "flex"}
+                display: { md: "none", lg: "flex" },
               }}
             >
               <IconButton
@@ -492,7 +492,7 @@ function Header() {
                   marginLeft: "10px",
                   height: "40px",
                   width: "40px",
-                  display: {md: "none", lg: "flex"}
+                  display: { md: "none", lg: "flex" },
                 }}
               >
                 <FavoriteBorderIcon

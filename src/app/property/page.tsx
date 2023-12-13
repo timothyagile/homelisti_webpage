@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "../globals.css";
 import Style from "./property.module.scss";
+import api from "../api/client";
 
 import {
   Container,
@@ -104,12 +105,641 @@ const theme = createTheme({
   },
 });
 
+const product: {
+  listing_id: number;
+  author_id: number;
+  title: string;
+  price: string;
+  category: {
+    term_id: number;
+    name: string;
+    slug: string;
+    count: number;
+  };
+  listingtype: {
+    id: string;
+    name: string;
+  };
+  view_count: number;
+  contact: {
+    id: number;
+    location: {
+      term_id: number;
+      name: string;
+      slug: string;
+      count: number;
+    };
+    address: string;
+    phone: string;
+    whatsapp_number: string;
+    email: string;
+  };
+  images: {
+    ID: number;
+    title: string;
+    url: string;
+    alt: string;
+  }[];
+  custom_fields: {
+    id: number;
+    label: string;
+    value: {
+      id: number;
+      data: string;
+    }[];
+    choices: {
+      id: string;
+      name: string;
+    }[];
+  }[];
+  description: string;
+} = {
+  listing_id: 17353,
+  author_id: 4,
+  title: "Modern apartment with a pole for buy",
+  price: "350,000",
+  category: {
+    term_id: 204,
+    name: "Restaurant",
+    slug: "restaurant",
+    count: 2,
+  },
+  listingtype: {
+    id: "buy",
+    name: "Buy",
+  },
+  view_count: 587,
+  contact: {
+    id: 1,
+    location: {
+      term_id: 172,
+      name: "New Jersey",
+      slug: "new-jersey",
+      count: 6,
+    },
+    address: "South stump tavern road, 42",
+    phone: "+052015698546",
+    whatsapp_number: "+052015698546",
+    email: "tom_steven@gmail.com",
+  },
+  images: [
+    {
+      ID: 17354,
+      title: "rosy_janner1",
+      url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner1.jpg",
+      alt: "",
+    },
+    {
+      ID: 17355,
+      title: "rosy_janner2",
+      url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner2.jpg",
+      alt: "",
+    },
+    {
+      ID: 17356,
+      title: "rosy_janner3",
+      url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner3.jpg",
+      alt: "",
+    },
+  ],
+  custom_fields: [
+    {
+      id: 4216,
+      label: "Amenities",
+      value: [
+        {
+          id: 1,
+          data: "tv-cable",
+        },
+        {
+          id: 2,
+          data: "air-conditioning",
+        },
+        {
+          id: 3,
+          data: "barbeque",
+        },
+        {
+          id: 4,
+          data: "gym",
+        },
+        {
+          id: 5,
+          data: "swimming-pool",
+        },
+        {
+          id: 6,
+          data: "laundry",
+        },
+        {
+          id: 7,
+          data: "microwave",
+        },
+        {
+          id: 8,
+          data: "outdoor-shower",
+        },
+        {
+          id: 9,
+          data: "lawn",
+        },
+        {
+          id: 10,
+          data: "refrigerator",
+        },
+        {
+          id: 11,
+          data: "sauna",
+        },
+        {
+          id: 12,
+          data: "washer",
+        },
+      ],
+      choices: [
+        {
+          id: "tv-cable",
+          name: "TV Cable",
+        },
+        {
+          id: "air-conditioning",
+          name: "Air Conditioning",
+        },
+        {
+          id: "barbeque",
+          name: "Barbeque",
+        },
+        {
+          id: "gym",
+          name: "Gym",
+        },
+        {
+          id: "swimming-pool",
+          name: "Swimming Pool",
+        },
+        {
+          id: "laundry",
+          name: "Laundry",
+        },
+        {
+          id: "microwave",
+          name: "Microwave",
+        },
+        {
+          id: "outdoor-shower",
+          name: "Outdoor Shower",
+        },
+        {
+          id: "lawn",
+          name: "Lawn",
+        },
+        {
+          id: "refrigerator",
+          name: "Refrigerator",
+        },
+        {
+          id: "sauna",
+          name: "Sauna",
+        },
+        {
+          id: "washer",
+          name: "Washer",
+        },
+      ],
+    },
+    {
+      id: 4323,
+      label: "Type",
+      value: [
+        {
+          id: 13,
+          data: "apartment",
+        },
+      ],
+      choices: [
+        {
+          id: "apartment",
+          name: "Apartment",
+        },
+        {
+          id: "office",
+          name: "Office",
+        },
+        {
+          id: "restaurant",
+          name: "Restaurant",
+        },
+      ],
+    },
+    {
+      id: 4322,
+      label: "Parking",
+      value: [
+        {
+          id: 16,
+          data: "yes",
+        },
+      ],
+      choices: [
+        {
+          id: "yes",
+          name: "Yes",
+        },
+        {
+          id: "no",
+          name: "No",
+        },
+      ],
+    },
+    {
+      id: 4316,
+      label: "Bedroom",
+      value: [
+        {
+          id: 20,
+          data: "3",
+        },
+      ],
+      choices: [
+        {
+          id: "1",
+          name: "1",
+        },
+        {
+          id: "2",
+          name: "2",
+        },
+        {
+          id: "3",
+          name: "3",
+        },
+        {
+          id: "4",
+          name: "4",
+        },
+        {
+          id: "5",
+          name: "5",
+        },
+        {
+          id: "6",
+          name: "6",
+        },
+      ],
+    },
+    {
+      id: 4321,
+      label: "Bath",
+      value: [
+        {
+          id: 26,
+          data: "3",
+        },
+      ],
+      choices: [
+        {
+          id: "1",
+          name: "1",
+        },
+        {
+          id: "2",
+          name: "2",
+        },
+        {
+          id: "3",
+          name: "3",
+        },
+        {
+          id: "4",
+          name: "4",
+        },
+      ],
+    },
+    {
+      id: 4692,
+      label: "Purpose",
+      value: [
+        {
+          id: 28,
+          data: "sell",
+        },
+      ],
+      choices: [
+        {
+          id: "sell",
+          name: "Sell",
+        },
+        {
+          id: "buy",
+          name: "Buy",
+        },
+        {
+          id: "rent",
+          name: "For Rent",
+        },
+      ],
+    },
+  ],
+  description: "",
+};
+
 const Property = () => {
   const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
   const [initialProductListing, setInitialProductListing] = useState(9);
   const [loadMoreBtnDisplay, setLoadMoreBtnDisplay] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState("grid");
+  const [listingsData, setListingsData] = useState([
+    {
+      listing_id: 17353,
+      author_id: 4,
+      title: "Modern apartment with a pole for buy",
+      price: "350,000",
+      category: {
+        term_id: 204,
+        name: "Restaurant",
+        slug: "restaurant",
+        count: 2,
+      },
+      listingtype: {
+        id: "buy",
+        name: "Buy",
+      },
+      view_count: 587,
+      contact: {
+        id: 1,
+        location: {
+          term_id: 172,
+          name: "New Jersey",
+          slug: "new-jersey",
+          count: 6,
+        },
+        address: "South stump tavern road, 42",
+        phone: "+052015698546",
+        whatsapp_number: "+052015698546",
+        email: "tom_steven@gmail.com",
+      },
+      images: [
+        {
+          ID: 17354,
+          title: "rosy_janner1",
+          url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner1.jpg",
+          alt: "",
+        },
+        {
+          ID: 17355,
+          title: "rosy_janner2",
+          url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner2.jpg",
+          alt: "",
+        },
+        {
+          ID: 17356,
+          title: "rosy_janner3",
+          url: "https://homlisti.tpblog.net/wp-content/uploads/classified-listing/2022/03/rosy_janner3.jpg",
+          alt: "",
+        },
+      ],
+      custom_fields: [
+        {
+          id: 4216,
+          label: "Amenities",
+          value: [
+            {
+              id: 1,
+              data: "tv-cable",
+            },
+            {
+              id: 2,
+              data: "air-conditioning",
+            },
+            {
+              id: 3,
+              data: "barbeque",
+            },
+            {
+              id: 4,
+              data: "gym",
+            },
+            {
+              id: 5,
+              data: "swimming-pool",
+            },
+            {
+              id: 6,
+              data: "laundry",
+            },
+            {
+              id: 7,
+              data: "microwave",
+            },
+            {
+              id: 8,
+              data: "outdoor-shower",
+            },
+            {
+              id: 9,
+              data: "lawn",
+            },
+            {
+              id: 10,
+              data: "refrigerator",
+            },
+            {
+              id: 11,
+              data: "sauna",
+            },
+            {
+              id: 12,
+              data: "washer",
+            },
+          ],
+          choices: [
+            {
+              id: "tv-cable",
+              name: "TV Cable",
+            },
+            {
+              id: "air-conditioning",
+              name: "Air Conditioning",
+            },
+            {
+              id: "barbeque",
+              name: "Barbeque",
+            },
+            {
+              id: "gym",
+              name: "Gym",
+            },
+            {
+              id: "swimming-pool",
+              name: "Swimming Pool",
+            },
+            {
+              id: "laundry",
+              name: "Laundry",
+            },
+            {
+              id: "microwave",
+              name: "Microwave",
+            },
+            {
+              id: "outdoor-shower",
+              name: "Outdoor Shower",
+            },
+            {
+              id: "lawn",
+              name: "Lawn",
+            },
+            {
+              id: "refrigerator",
+              name: "Refrigerator",
+            },
+            {
+              id: "sauna",
+              name: "Sauna",
+            },
+            {
+              id: "washer",
+              name: "Washer",
+            },
+          ],
+        },
+        {
+          id: 4323,
+          label: "Type",
+          value: [
+            {
+              id: 13,
+              data: "apartment",
+            },
+          ],
+          choices: [
+            {
+              id: "apartment",
+              name: "Apartment",
+            },
+            {
+              id: "office",
+              name: "Office",
+            },
+            {
+              id: "restaurant",
+              name: "Restaurant",
+            },
+          ],
+        },
+        {
+          id: 4322,
+          label: "Parking",
+          value: [
+            {
+              id: 16,
+              data: "yes",
+            },
+          ],
+          choices: [
+            {
+              id: "yes",
+              name: "Yes",
+            },
+            {
+              id: "no",
+              name: "No",
+            },
+          ],
+        },
+        {
+          id: 4316,
+          label: "Bedroom",
+          value: [
+            {
+              id: 20,
+              data: "3",
+            },
+          ],
+          choices: [
+            {
+              id: "1",
+              name: "1",
+            },
+            {
+              id: "2",
+              name: "2",
+            },
+            {
+              id: "3",
+              name: "3",
+            },
+            {
+              id: "4",
+              name: "4",
+            },
+            {
+              id: "5",
+              name: "5",
+            },
+            {
+              id: "6",
+              name: "6",
+            },
+          ],
+        },
+        {
+          id: 4321,
+          label: "Bath",
+          value: [
+            {
+              id: 26,
+              data: "3",
+            },
+          ],
+          choices: [
+            {
+              id: "1",
+              name: "1",
+            },
+            {
+              id: "2",
+              name: "2",
+            },
+            {
+              id: "3",
+              name: "3",
+            },
+            {
+              id: "4",
+              name: "4",
+            },
+          ],
+        },
+        {
+          id: 4692,
+          label: "Purpose",
+          value: [
+            {
+              id: 28,
+              data: "sell",
+            },
+          ],
+          choices: [
+            {
+              id: "sell",
+              name: "Sell",
+            },
+            {
+              id: "buy",
+              name: "Buy",
+            },
+            {
+              id: "rent",
+              name: "For Rent",
+            },
+          ],
+        },
+      ],
+      description: "",
+    },
+  ]);
 
   const handleChangePriceRange = (
     event: Event,
@@ -119,10 +749,10 @@ const Property = () => {
   };
 
   const handleLoadMoreProduct = () => {
-    if (initialProductListing + 9 >= temp.length) {
+    if (initialProductListing + 9 >= listingsData.length) {
       setLoadMoreBtnDisplay(false);
       setIsLoading(false);
-      return setInitialProductListing(temp.length);
+      return setInitialProductListing(listingsData.length);
     }
     setIsLoading(false);
     setInitialProductListing(initialProductListing + 9);
@@ -134,6 +764,25 @@ const Property = () => {
 
   const handleListView = () => {
     setView("list");
+  };
+
+  useEffect(() => {
+    handleLoadListing();
+  }, []);
+
+  const handleLoadListing = () => {
+    api
+      .get("listings")
+      .then((res) => {
+        if (res.status === 200) {
+          setListingsData(res.data);
+        }
+        setIsLoading(false);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -332,7 +981,8 @@ const Property = () => {
             <Grid item xs={12} sm={12} md={9} lg={9}>
               <div className={Style.listingsActions}>
                 <Typography className={Style.resultCount}>
-                  Showing 1–{initialProductListing} of {temp.length} results
+                  Showing 1–{initialProductListing} of {listingsData.length}{" "}
+                  results
                 </Typography>
                 <div className={Style.listingsActionsWrap}>
                   <Typography className={Style.orderByTitle}>
@@ -381,34 +1031,22 @@ const Property = () => {
                 </div>
               </div>
               <Grid container spacing={4}>
-                {temp.slice(0, initialProductListing).map((item) =>
+                {listingsData.slice(0, initialProductListing).map((item, i) =>
                   view === "grid" ? (
-                    <Grid item xs={12} sm={12} md={4} lg={4} key={item}>
-                      <ProductCard
-                        view={view}
-                        product={{
-                          id: 1,
-                          title: "countryside-modern-lake-view-restaurant",
-                        }}
-                      />
+                    <Grid item xs={12} sm={12} md={4} lg={4} key={i}>
+                      <ProductCard view={view} product={item} />
                     </Grid>
                   ) : (
-                    <Grid item xs={12} sm={12} md={12} lg={12} key={item}>
-                      <ProductCard
-                        view={view}
-                        product={{
-                          id: 1,
-                          title: "countryside-modern-lake-view-restaurant",
-                        }}
-                      />
+                    <Grid item xs={12} sm={12} md={12} lg={12} key={i}>
+                      <ProductCard view={view} product={item} />
                     </Grid>
                   )
                 )}
               </Grid>
               <div className={Style.loadMoreWrap}>
                 <Typography>
-                  You have viewed {initialProductListing} of {temp.length}{" "}
-                  products
+                  You have viewed {initialProductListing} of{" "}
+                  {listingsData.length} products
                 </Typography>
                 <LoadingButton
                   className={Style.loadMoreBtn}
