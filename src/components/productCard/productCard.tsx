@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 import api from "../../app/api/client";
 
@@ -82,10 +82,16 @@ interface ProductCardProps {
 }
 
 const ProductCard = (props: ProductCardProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
 
   const handleViewProductDetail = () => {
-    router.push(`/property/${props.product.title}`);
+    const params = new URLSearchParams(searchParams);
+    params.set("listings_id", props.product.listing_id.toString());
+    router.push(`/property/${props.product.title}?${params.toString()}`);
   };
 
   return (
