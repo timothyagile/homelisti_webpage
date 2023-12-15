@@ -1,7 +1,9 @@
+import LoadingPage from "@/components/loadingPage/loading";
+
 const Pages = () => {
     return (
         <div>
-            Pages
+            <LoadingPage/>
         </div>
     ) 
 }
