@@ -391,7 +391,10 @@ const ProductDetail = ({ params }: { params: { productID: string } }) => {
   };
 
   const splitDescription = () => {
-    let arr1 = listingData.description.split("\r\n\r\n");
+    let description =
+      "Countryside Modern Lake View Restaurant only for $500000 onetime is one of the cheapest around and includes water, sewer, and garbage.\r\n\r\nThis restaurant welcomes animals. The Restaurant is on the second story of the building. For all amenities in the house, a live-in super is available.\r\n\r\nPlease get in touch if you have any more inquiries. Additionally, videos are available upon request.\r\n\r\n*** NO BROKER FEE ***\r\n\r\n \tAwesome lake beside of apartment\r\n \t3 Bedroom and 2 Baths\r\n \t24 Hours security\r\n \tAll-time CC camera coverage\r\n \tAbundant sunshine\r\n \tStylish appliances\r\n \tNear a transit hub\r\n \t2-year lease for newly refurbished\r\n \tNecessary credit and background checks\r\n \tNear a Big Hospital and Large Shopingmal\r\n";
+
+    let arr1 = description.split("\r\n\r\n");
     let arr2 = arr1[arr1.length - 1].split("\r\n");
 
     arr1.splice(-1);

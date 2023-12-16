@@ -88,7 +88,6 @@ const sortby: { id: string; title: string }[] = [
   { id: "date-desc", title: "Default" },
   { id: "title-asc", title: "A to Z ( title )" },
   { id: "title-desc", title: "Z to A ( title )" },
-  { id: "date-asc", title: "Date added ( oldest )" },
   { id: "views-desc", title: "Most viewed" },
   { id: "views-asc", title: "Less view" },
   { id: "price-asc", title: "Price ( low to high )" },
@@ -419,6 +418,9 @@ const Property = () => {
   const [selectedLocations, setSelectedLocations] = useState({
     selectedValue: 0,
   });
+  const [selectedSortBy, setSelectedSortBy] = useState({
+    selectedValue: "date-desc",
+  });
 
   const handleChangePriceRange = (
     event: Event,
@@ -452,6 +454,10 @@ const Property = () => {
     handleLoadListingTypes();
     handleLoadLocations();
   }, []);
+
+  useEffect(()=>{
+    handleFilterListingData();
+  },[selectedSortBy])
 
   const handleLoadListing = () => {
     api
@@ -521,14 +527,15 @@ const Property = () => {
           selectedListingTypes.selectedValue
         }&category_id=${selectedCategories.selectedValue}&location_id=${
           selectedLocations.selectedValue
-        }&min_price=${priceRange[0] * 10000}&max_price=${priceRange[1] * 10000}`
+        }&min_price=${priceRange[0] * 10000}&max_price=${
+          priceRange[1] * 10000
+        }&&sort_by=${selectedSortBy.selectedValue}`
       )
       .then((res) => {
         if (res.status === 200) {
           setListingsData(res.data);
           setIsLoading(false);
         }
-        console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -564,7 +571,12 @@ const Property = () => {
     setSelectedLocations(() => ({
       selectedValue: event.target.value as number,
     }));
-    console.log(selectedLocations.selectedValue);
+  };
+
+  const handleSortByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setSelectedSortBy(() => ({
+      selectedValue: event.target.value as string,
+    }));
   };
 
   const handleResetSearch = () => {
@@ -813,11 +825,12 @@ const Property = () => {
                       displayEmpty
                       variant="outlined"
                       placeholder="Default"
-                      defaultValue="date-desc"
+                      value={selectedSortBy.selectedValue}
                       MenuProps={{
                         disableScrollLock: true,
                       }}
                       className={Style.orderBy}
+                      onChange={handleSortByChange}
                     >
                       {sortby.map((item) => (
                         <MenuItem key={item.id} value={item.id}>
