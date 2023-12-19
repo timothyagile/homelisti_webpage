@@ -1,195 +1,181 @@
 "use client";
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Link from "next/link";
-import { Divider } from "@mui/material";
-import Image from "next/image";
-import styled from "styled-components";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import Aos from "aos";
-import "aos/dist/aos.css";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+
+import { useState, useEffect } from "react";
+
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import {
+  Container,
+  Breadcrumbs,
+  Link,
+  Typography,
+  Divider,
+  Grid,
+  Button,
+  TextField,
+} from "@mui/material";
+
 import Style from "./myAccount.module.scss";
-import { CheckBox, Label } from "@mui/icons-material";
+import api from "../api/client";
 
-Aos.init();
+import { useGlobalContext } from "../Context/store";
+import { useRouter } from "next/navigation";
 
-function myAccount() {
-  const [scrollPosition, setScrollPosition] = React.useState(0);
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#00a47e", // Replace with your preferred color
+    },
+  },
+});
 
-  const handleScroll = () => {
-    const position = window.pageYOffset;
-    setScrollPosition(position);
-  };
+const myAccount = () => {
+  const [userData, setUserData] = useState({
+    id: 4,
+    first_name: "Bao",
+    last_name: "Phan",
+    username: "Toretto",
+    contact: {
+      id: 1,
+      location: {
+        term_id: 172,
+        name: "New Jersey",
+        slug: "new-jersey",
+        count: 6,
+      },
+      address: "South stump tavern road, 42",
+      phone: "+052015698546",
+      whatsapp_number: "+052015698546",
+      email: "tom_steven@gmail.com",
+    },
+    account: {
+      id: 1,
+      username: "phanchibao007@gmail.com",
+      password: "Pcb0941819910",
+    },
+  });
 
-  React.useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+  const { USERNAME, SETUSERNAME, SETPASSWORD, SETJWT } = useGlobalContext();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    api
+      .get(`/user/id?username=${USERNAME}`)
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
-  // Tính toán backgroundPositionY dựa trên scrollPosition với sự thay đổi 1px khi lăn chuột xuống
-  const backgroundPositionY1 = `center ${900 - scrollPosition * 0.4}px`;
-  const backgroundPositionY2 = `center ${900 - scrollPosition * 0.6}px`;
-
   return (
-    <div
-      style={{
-        minHeight: "1065px",
-        backgroundColor: "#fff",
-      }}
-      className="main-container"
-    >
-      <Container
-        maxWidth="xl"
-        sx={{
-          maxWidth: {
-            xs: "738px",
-            md: "990px",
-            lg: "1220px",
-          },
-          backgroundColor: "#fff",
-          marginTop: "86px",
-          minHeight: "100vh",
-          padding: { xs: "column", lg: "row", md: "0px" },
-          display: "flex",
-          flexDirection: "column",
-          //alignItems: "center"
-        }}
-      >
-        <Box className={Style.breadcrumbBanner}>
-          <div className={Style.barContainer}>
-            <div className={Style.containerTitle}>
-              <>
-                <a
-                  href="/"
-                  style={{
-                    color: "#878c9f",
-                    textDecoration: "none",
-                  }}
-                >
-                  Home
-                </a>
-                <ChevronRightIcon
-                  sx={{
-                    fontSize: "18px",
-                    marginRight: "7px",
-                    marginLeft: "7px",
-                  }}
-                />
-              </>
-            </div>
-            <div className={Style.accountAddress}>myAccount</div>
-          </div>
-        </Box>
+    <ThemeProvider theme={theme}>
+      <div className={Style.wrapper}>
+        {/* Breadcrumbs */}
+        <Container maxWidth="lg">
+          <Breadcrumbs
+            separator="›"
+            aria-label="breadcrumb"
+            className={Style.breadCrumbsContainer}
+          >
+            <Link
+              underline="none"
+              color="inherit"
+              href="/"
+              className={Style.breadCrumbsLink}
+            >
+              Home
+            </Link>
+            <Typography
+              color="var(--primary-color)"
+              className={Style.breadCrumbsLink}
+            >
+              My Account
+            </Typography>
+          </Breadcrumbs>
+        </Container>
 
-        <Box
-          className={Style.elementColumn}
-          sx={{
-            width: { xs: "100%", md: "100%", sm: "100%" },
-            padding: { xs: "20px", sm: "20px" },
-            paddingRight: { md: "0px", lg: "0px" },
-          }}
-        >
-          <Box className={Style.widgetWrap_3}>
-            <Box>
-              <Box>
-                <Box
-                  sx={{
-                    width: {
-                      xs: "100%",
-                      md: "100%",
-                      sm: "100%",
-                    },
-                  }}
-                  className={Style.elementColumn}
-                >
-                  <Box className={Style.widgetWrap_2}>
-                    <Box
-                      className={Style.elementElement}
-                      sx={{
-                        marginBottom: "50px",
-                      }}
-                    >
-                      <h2 className={Style.mainTitle}>Login</h2>
-                    </Box>
-                    <Box className={Style.elementElement}>
-                      <Box className={Style.ffTContainer}>
-                        <Box className={Style.fluentForm}>
-                          <div className={Style.inputLabel}>
-                            <label className={Style.ff1Title}>
-                              User or E-mail
-                            </label>
-                          </div>
-                          <div>
-                            <input
-                              type="text"
-                              name="user"
-                              id={Style.namesFirstName}
-                              className={Style.elFormControl}
-                              aria-invalid="false"
-                              aria-required="false"
-                            />
-                          </div>
-                        </Box>
-                        <Box className={Style.fluentForm}>
-                          <div className={Style.inputLabel}>
-                            <label className={Style.ff1Title}>Password</label>
-                          </div>
-                          <div className={Style.inputContent}>
-                            <input
-                              type="text"
-                              name="names[first-name]"
-                              id={Style.namesFirstName}
-                              className={Style.elFormControl}
-                              aria-invalid="false"
-                              aria-required="false"
-                            />
-                          </div>
-                        </Box>
-                      </Box>
-                      <Box className={Style.wrapSubmit}>
-                        <Box className={Style.submitBtn}>
-                          <button type="submit" className={Style.btnSubmit}>
-                            Login
-                          </button>
-                        </Box>
-                        <Box className={Style.checkBox}>
-                          <input
-                            className={Style.btnCheckBox}
-                            id="CheckBox"
-                            type="checkbox"
-                          />
-                          <label className={Style.textCheckBox}>
-                            {" "}
-                            Remember Me
-                          </label>
-                        </Box>
-                      </Box>
-                      <div>
-                        <a className={Style.txtForgotPass} href="">
-                          Forgot your password?
-                        </a>
-                      </div>
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      </Container>
-    </div>
+        <Divider />
+
+        <Container maxWidth="lg" className={Style.mainContent}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={12} md={3} lg={3} className={Style.sidebar}>
+              <Button variant="contained">Account details</Button>
+              <Button
+              className={Style.logout}
+                onClick={() => {
+                  SETUSERNAME("");
+                  SETPASSWORD("");
+                  SETJWT("");
+                  router.push("/login");
+                }}
+              >
+                Logout
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={9} lg={9}>
+              <Grid container className={Style.widgetWrap_3}>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <Typography>Username</Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={9} lg={9}>
+                  <TextField fullWidth value={userData.username} />
+                </Grid>
+              </Grid>
+              <Grid container className={Style.widgetWrap_3}>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <Typography>First name</Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={9} lg={9}>
+                  <TextField fullWidth value={userData.first_name} />
+                </Grid>
+              </Grid>
+              <Grid container className={Style.widgetWrap_3}>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <Typography>Last name</Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={9} lg={9}>
+                  <TextField fullWidth value={userData.last_name} />
+                </Grid>
+              </Grid>
+              <Grid container className={Style.widgetWrap_3}>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <Typography>E-mail address</Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={9} lg={9}>
+                  <TextField fullWidth value={userData.contact.email} />
+                </Grid>
+              </Grid>
+              <Grid container className={Style.widgetWrap_3}>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <Typography>Phone</Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={9} lg={9}>
+                  <TextField fullWidth value={userData.contact.phone} />
+                </Grid>
+              </Grid>
+              <Grid container className={Style.widgetWrap_3}>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <Typography>Address</Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={9} lg={9}>
+                  <TextField fullWidth value={userData.contact.address} />
+                </Grid>
+              </Grid>
+              <Grid container className={Style.widgetWrap_3}>
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+                <Grid item xs={12} sm={12} md={9} lg={9}>
+                  <Button fullWidth variant="contained">
+                    Update Account
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+      </div>
+    </ThemeProvider>
   );
-}
+};
 
 export default myAccount;

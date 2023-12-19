@@ -27,6 +27,8 @@ import { MenuItem } from "@mui/material";
 import Popper from "@mui/material/Popper";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
+import { useGlobalContext } from "@/app/Context/store";
+
 let pages: {
   id: number;
   page: string;
@@ -164,6 +166,7 @@ let pages: {
 function Header() {
   const router = useRouter();
 
+  const { JWT } = useGlobalContext();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [popperOpen, setPopperOpen] = React.useState(false);
@@ -262,8 +265,7 @@ function Header() {
     setIsMenuItemHovered("");
   }
   const handleAccountButtonClick = () => {
-    // Thực hiện chuyển hướng khi IconButton được click
-    router.push("/myAccount"); // Thay thế '/your-account-page' bằng đường dẫn bạn muốn chuyển đến
+    router.push("/login");
   };
 
   return (
@@ -545,6 +547,13 @@ function Header() {
             </IconButton>
 
             <Button
+              onClick={() => {
+                if (JWT !== "") {
+                  router.push("/addProperty");
+                } else {
+                  router.push("/login");
+                }
+              }}
               sx={{
                 display: { xs: "none", md: "flex" },
                 borderRadius: "25px",

@@ -1,37 +1,10 @@
-.wrapper {
-  min-height: 100vh;
-  background-color: var(--secondary-color);
-  margin-top: var(--header-height);
-
-  .breadCrumbsContainer {
-    padding: 30px 0;
-    font-size: 16px;
-    font-weight: 800;
-
-    .breadCrumbsLink {
-      font-size: 16px;
-      font-weight: 800;
-
-      &:hover {
-        color: var(--primary-color);
-      }
-    }
-  }
-
-  .mainContent {
-    padding: 55px 0 80px;
-
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-
-      .logout {
-        background-color: white;
-      }
-    }
-  }
+.breadcrumbBanner {
+  padding: 30px 0;
+  background-color: #ffffff;
+  overflow: hidden;
+  border-bottom: 1px solid #dceeea;
 }
-
+// menu bar
 .barContainer {
   display: flex;
   align-items: center;
