@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Transform } from "stream";
 
+import { Transform } from "stream";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -261,6 +261,11 @@ function Header() {
   function handleMenuItemLeave() {
     setIsMenuItemHovered("");
   }
+  const handleAccountButtonClick = () => {
+    // Thực hiện chuyển hướng khi IconButton được click
+    router.push("/myAccount"); // Thay thế '/your-account-page' bằng đường dẫn bạn muốn chuyển đến
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -284,7 +289,10 @@ function Header() {
       >
         <Toolbar
           disableGutters
-          sx={{ justifyContent: "space-between", height: "86px" }}
+          sx={{
+            justifyContent: "space-between",
+            height: "86px",
+          }}
         >
           <Box sx={{ "&:hover": { cursor: "pointer" } }}>
             <Image src="/logo_light.svg" width={148} height={39} alt="Logo" />
@@ -463,7 +471,11 @@ function Header() {
               >
                 <CompareArrowsIcon
                   className="icon-rotate"
-                  sx={{ height: "20px", width: "20px", alignItems: "center" }}
+                  sx={{
+                    height: "20px",
+                    width: "20px",
+                    alignItems: "center",
+                  }}
                 />
               </IconButton>
             </Badge>
@@ -497,7 +509,11 @@ function Header() {
               >
                 <FavoriteBorderIcon
                   className="icon-rotate"
-                  sx={{ height: "20px", width: "20px", alignItems: "center" }}
+                  sx={{
+                    height: "20px",
+                    width: "20px",
+                    alignItems: "center",
+                  }}
                 />
               </IconButton>
             </Badge>
@@ -520,6 +536,7 @@ function Header() {
                 height: "40px",
                 width: "40px",
               }}
+              onClick={handleAccountButtonClick}
             >
               <PersonOutlineIcon
                 className="icon-rotate"
@@ -596,7 +613,10 @@ function Header() {
             </IconButton>
 
             <IconButton
-              sx={{ display: { md: "none" }, color: "white" }}
+              sx={{
+                display: { md: "none" },
+                color: "white",
+              }}
               onClick={handleClick}
             >
               <MenuIcon />
@@ -634,8 +654,14 @@ function Header() {
                   },
                 },
               }}
-              transformOrigin={{ horizontal: "left", vertical: "top" }}
-              anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+              transformOrigin={{
+                horizontal: "left",
+                vertical: "top",
+              }}
+              anchorOrigin={{
+                horizontal: "left",
+                vertical: "bottom",
+              }}
             >
               {pages.map((page) => (
                 <MenuItem key={page.id} sx={{ width: "100vw" }}>
