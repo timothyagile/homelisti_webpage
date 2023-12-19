@@ -308,7 +308,7 @@ function Header() {
         maxWidth="lg"
         sx={{
           margin: "auto",
-          // maxWidth: { xs: "1285px !important", md: " " },
+           maxWidth: { xs: "1245px !important", md: " " },
         }}
       >
         <Toolbar
