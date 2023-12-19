@@ -161,6 +161,18 @@ let pages: {
   },
 ];
 
+
+let propertyBtn: {
+  id: number;
+  page: string;
+  link: string;
+} [] = [
+  {
+    id: 1,
+    page: "propertyBtn",
+    link: "/propertyBtn"
+  }
+]
 function Header() {
   const router = useRouter();
 
@@ -219,6 +231,16 @@ function Header() {
   }, []);
 
   const handleButtonClick = (
+    event: React.MouseEvent<HTMLElement>,
+    id: number,
+    link: string
+  ) => {
+    setPopperAnchorEl(event.currentTarget);
+    setSelectedButton(id);
+    router.push(link);
+  };
+
+  const handleButtonClickProperty = (
     event: React.MouseEvent<HTMLElement>,
     id: number,
     link: string
@@ -527,7 +549,9 @@ function Header() {
               />
             </IconButton>
 
-            <Button
+            {propertyBtn.map((property) => (
+              <Button
+              key={property.id}
               sx={{
                 display: { xs: "none", md: "flex" },
                 borderRadius: "25px",
@@ -574,9 +598,14 @@ function Header() {
                   }}
                 />
               }
+              onClick={(event) =>
+                handleButtonClickProperty(event, property.id, property.link)
+              }
             >
-              Add property
-            </Button>
+                Add property
+              </Button>
+            )) }
+            
 
             <IconButton
               sx={{
