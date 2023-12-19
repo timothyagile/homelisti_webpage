@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 
 import "../globals.css";
 import Style from "./property.module.scss";
@@ -42,12 +42,11 @@ import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ProductCard from "@/components/productCard/productCard";
 import ScrollToTopButton from "@/components/scrollToTopButton";
 import NewsLetter from "@/components/newsLetter/newsLetter";
-import PageLoader from "next/dist/client/page-loader";
 import LoadingPage from "@/components/loadingPage/loading";
 
 const types: string[] = ["Sell", "Buy", "Rent"];
 
-const categories: string[] = [
+const category: string[] = [
   "Apartments",
   "Commercial",
   "Office",
@@ -56,7 +55,7 @@ const categories: string[] = [
   "Villa",
 ];
 
-const locations: string[] = [
+const location: string[] = [
   "California",
   "Claremont",
   "Kansas",
@@ -88,7 +87,6 @@ const sortby: { id: string; title: string }[] = [
   { id: "date-desc", title: "Default" },
   { id: "title-asc", title: "A to Z ( title )" },
   { id: "title-desc", title: "Z to A ( title )" },
-  { id: "date-asc", title: "Date added ( oldest )" },
   { id: "views-desc", title: "Most viewed" },
   { id: "views-asc", title: "Less view" },
   { id: "price-asc", title: "Price ( low to high )" },
@@ -110,12 +108,9 @@ const theme = createTheme({
 const Property = () => {
   const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
   const [initialProductListing, setInitialProductListing] = useState(9);
-  const [loadMoreBtnDisplay, setLoadMoreBtnDisplay] = useState(true);
+  const [loadMoreBtnDisplay, setLoadMoreBtnDisplay] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState("grid");
-  const [searchData, setSearchData] = useState(() => {
-    return { title: "a", ad_type: "sell", categories: 112, locations: 172 };
-  });
   const [listingsData, setListingsData] = useState([
     {
       listing_id: 17353,
@@ -407,6 +402,24 @@ const Property = () => {
       description: "",
     },
   ]);
+  const [selectedTitle, setSelectedTitle] = useState({
+    selectedValue: "null",
+  });
+  const [listingTypes, setListingTypes] = useState();
+  const [selectedListingTypes, setSelectedListingTypes] = useState({
+    selectedValue: "null",
+  });
+  const [categories, setCategories] = useState();
+  const [selectedCategories, setSelectedCategories] = useState({
+    selectedValue: 0,
+  });
+  const [locations, setLocations] = useState();
+  const [selectedLocations, setSelectedLocations] = useState({
+    selectedValue: 0,
+  });
+  const [selectedSortBy, setSelectedSortBy] = useState({
+    selectedValue: "date-desc",
+  });
 
   const handleChangePriceRange = (
     event: Event,
@@ -436,7 +449,14 @@ const Property = () => {
   useEffect(() => {
     setIsLoading(true);
     handleLoadListing();
+    handleLoadCategories();
+    handleLoadListingTypes();
+    handleLoadLocations();
   }, []);
+
+  useEffect(()=>{
+    handleFilterListingData();
+  },[selectedSortBy])
 
   const handleLoadListing = () => {
     api
@@ -453,20 +473,116 @@ const Property = () => {
       });
   };
 
+  const handleLoadCategories = () => {
+    api
+      .get("Categories")
+      .then((res) => {
+        if (res.status === 200) {
+          setCategories(res.data);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
+  const handleLoadListingTypes = () => {
+    api
+      .get("ListingTypes")
+      .then((res) => {
+        if (res.status === 200) {
+          setListingTypes(res.data);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
+  const handleLoadLocations = () => {
+    api
+      .get("Locations")
+      .then((res) => {
+        if (res.status === 200) {
+          setLocations(res.data);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
   const handleFilterListingData = () => {
+    setIsLoading(true);
     api
       .get(
-        `Listings/filter?title=${searchData.title}&type=${searchData.ad_type}&category_id=${searchData.categories}&location_id=${searchData.locations}&min_price=0&max_price=0`
+        `Listings/filter?title=${selectedTitle.selectedValue}&type=${
+          selectedListingTypes.selectedValue
+        }&category_id=${selectedCategories.selectedValue}&location_id=${
+          selectedLocations.selectedValue
+        }&min_price=${priceRange[0] * 10000}&max_price=${
+          priceRange[1] * 10000
+        }&&sort_by=${selectedSortBy.selectedValue}`
       )
       .then((res) => {
         if (res.status === 200) {
           setListingsData(res.data);
+          setIsLoading(false);
         }
-        console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setSelectedTitle(() => ({
+      selectedValue: event.target.value as string,
+    }));
+  };
+
+  const handleListingTypesChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setSelectedListingTypes(() => ({
+      selectedValue: event.target.value as string,
+    }));
+  };
+
+  const handleCategoriesChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setSelectedCategories(() => ({
+      selectedValue: event.target.value as number,
+    }));
+  };
+
+  const handleLocationsChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setSelectedLocations(() => ({
+      selectedValue: event.target.value as number,
+    }));
+  };
+
+  const handleSortByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setSelectedSortBy(() => ({
+      selectedValue: event.target.value as string,
+    }));
+  };
+
+  const handleResetSearch = () => {
+    setSelectedTitle({ selectedValue: "null" });
+    setSelectedListingTypes({ selectedValue: "null" });
+    setSelectedCategories({ selectedValue: 0 });
+    setSelectedLocations({ selectedValue: 0 });
   };
 
   return (
@@ -519,21 +635,24 @@ const Property = () => {
                       variant="outlined"
                       placeholder="What are you looking for?"
                       className={Style.advancedSearchItem}
+                      onChange={handleTitleChange}
                     />
                     <Select
                       fullWidth
                       displayEmpty
                       variant="outlined"
-                      defaultValue="Property Type"
+                      defaultValue="null"
                       MenuProps={{
                         disableScrollLock: true,
                       }}
                       className={Style.advancedSearchItem}
+                      value={selectedListingTypes.selectedValue}
+                      onChange={handleListingTypesChange}
                     >
-                      <MenuItem value="Property Type">Property Type</MenuItem>
-                      {types.map((type) => (
-                        <MenuItem key={type} value={type}>
-                          {type}
+                      <MenuItem value="null">Property Type</MenuItem>
+                      {listingTypes?.map((type) => (
+                        <MenuItem key={type.id} value={type.id}>
+                          {type.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -542,16 +661,21 @@ const Property = () => {
                       displayEmpty
                       variant="outlined"
                       placeholder="All Categories"
-                      defaultValue="All Categories"
+                      defaultValue={0}
                       MenuProps={{
                         disableScrollLock: true,
                       }}
                       className={Style.advancedSearchItem}
+                      value={selectedCategories.selectedValue}
+                      onChange={handleCategoriesChange}
                     >
-                      <MenuItem value="All Categories">All Categories</MenuItem>
-                      {categories.map((category) => (
-                        <MenuItem key={category} value={category}>
-                          {category}
+                      <MenuItem value={0}>All Categories</MenuItem>
+                      {categories?.map((category) => (
+                        <MenuItem
+                          key={category.term_id}
+                          value={category.term_id}
+                        >
+                          {category.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -560,16 +684,21 @@ const Property = () => {
                       displayEmpty
                       variant="outlined"
                       placeholder="All Cities"
-                      defaultValue="All Cities"
+                      defaultValue={0}
                       MenuProps={{
                         disableScrollLock: true,
                       }}
                       className={Style.advancedSearchItem}
+                      value={selectedLocations.selectedValue}
+                      onChange={handleLocationsChange}
                     >
-                      <MenuItem value="All Cities">All Cities</MenuItem>
-                      {locations.map((location) => (
-                        <MenuItem key={location} value={location}>
-                          {location}
+                      <MenuItem value={0}>All Cities</MenuItem>
+                      {locations?.map((location) => (
+                        <MenuItem
+                          key={location.term_id}
+                          value={location.term_id}
+                        >
+                          {location.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -644,7 +773,7 @@ const Property = () => {
                       <Box className={Style.advancedSearchRangeSliderLabel}>
                         <Typography>Price</Typography>
                         <Typography>
-                          ${priceRange[0] * 500} - ${priceRange[1] * 500}
+                          ${priceRange[0] * 10000} - ${priceRange[1] * 10000}
                         </Typography>
                       </Box>
                       <Slider
@@ -659,11 +788,17 @@ const Property = () => {
                     <Button
                       sx={{ flexGrow: "1" }}
                       variant="contained"
-                      onClick={() => handleFilterListingData()}
+                      onClick={() => {
+                        handleFilterListingData();
+                      }}
                     >
                       Find Property
                     </Button>
-                    <Button variant="outlined" startIcon={<RestartAltIcon />}>
+                    <Button
+                      variant="outlined"
+                      startIcon={<RestartAltIcon />}
+                      onClick={handleResetSearch}
+                    >
                       Reset
                     </Button>
                   </CardActions>
@@ -674,8 +809,11 @@ const Property = () => {
               <Grid item xs={12} sm={12} md={9} lg={9}>
                 <div className={Style.listingsActions}>
                   <Typography className={Style.resultCount}>
-                    Showing 1–{initialProductListing} of {listingsData.length}{" "}
-                    results
+                    Showing 1–
+                    {initialProductListing <= listingsData.length
+                      ? initialProductListing
+                      : listingsData.length}{" "}
+                    of {listingsData.length} results
                   </Typography>
                   <div className={Style.listingsActionsWrap}>
                     <Typography className={Style.orderByTitle}>
@@ -686,11 +824,12 @@ const Property = () => {
                       displayEmpty
                       variant="outlined"
                       placeholder="Default"
-                      defaultValue="date-desc"
+                      value={selectedSortBy.selectedValue}
                       MenuProps={{
                         disableScrollLock: true,
                       }}
                       className={Style.orderBy}
+                      onChange={handleSortByChange}
                     >
                       {sortby.map((item) => (
                         <MenuItem key={item.id} value={item.id}>
@@ -738,8 +877,11 @@ const Property = () => {
                 </Grid>
                 <div className={Style.loadMoreWrap}>
                   <Typography>
-                    You have viewed {initialProductListing} of{" "}
-                    {listingsData.length} products
+                    You have viewed{" "}
+                    {initialProductListing <= listingsData.length
+                      ? initialProductListing
+                      : listingsData.length}{" "}
+                    of {listingsData.length} products
                   </Typography>
                   <LoadingButton
                     className={Style.loadMoreBtn}
@@ -749,7 +891,15 @@ const Property = () => {
                       setIsLoading(true);
                       setTimeout(() => handleLoadMoreProduct(), 3000);
                     }}
-                    sx={{ display: loadMoreBtnDisplay ? "flex" : "none" }}
+                    sx={{
+                      display: (
+                        initialProductListing <= listingsData.length
+                          ? true
+                          : false
+                      )
+                        ? "flex"
+                        : "none",
+                    }}
                   >
                     Load more
                   </LoadingButton>
