@@ -42,7 +42,6 @@ import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ProductCard from "@/components/productCard/productCard";
 import ScrollToTopButton from "@/components/scrollToTopButton";
 import NewsLetter from "@/components/newsLetter/newsLetter";
-import PageLoader from "next/dist/client/page-loader";
 import LoadingPage from "@/components/loadingPage/loading";
 
 const types: string[] = ["Sell", "Buy", "Rent"];
