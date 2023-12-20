@@ -163,6 +163,17 @@ let pages: {
   },
 ];
 
+let propertyBtn: {
+  id: number;
+  page: string;
+  link: string;
+}[] = [
+  {
+    id: 1,
+    page: "propertyBtn",
+    link: "/propertyBtn",
+  },
+];
 function Header() {
   const router = useRouter();
 
@@ -231,6 +242,18 @@ function Header() {
     router.push(link);
   };
 
+  const handleButtonClickProperty = (
+    event: React.MouseEvent<HTMLElement>,
+    id: number,
+    link: string
+  ) => {
+    if (JWT !== "") {
+      setPopperAnchorEl(event.currentTarget);
+      setSelectedButton(id);
+      router.push(link);
+    } else router.push("/login");
+  };
+
   const handleButtonClick_1 = (event: React.MouseEvent<HTMLElement>) => {
     const validIds = [1, 3, 4, 5];
     const isPageValid = pages.some((page) => validIds.includes(page.id));
@@ -265,7 +288,8 @@ function Header() {
     setIsMenuItemHovered("");
   }
   const handleAccountButtonClick = () => {
-    router.push("/login");
+    if (JWT !== "") router.push("/myAccount");
+    else router.push("/login");
   };
 
   return (
@@ -286,7 +310,7 @@ function Header() {
         maxWidth="lg"
         sx={{
           margin: "auto",
-          // maxWidth: { xs: "1285px !important", md: " " },
+          maxWidth: { xs: "1245px !important", md: " " },
         }}
       >
         <Toolbar
@@ -546,63 +570,62 @@ function Header() {
               />
             </IconButton>
 
-            <Button
-              onClick={() => {
-                if (JWT !== "") {
-                  router.push("/addProperty");
-                } else {
-                  router.push("/login");
-                }
-              }}
-              sx={{
-                display: { xs: "none", md: "flex" },
-                borderRadius: "25px",
-                marginLeft: "4px",
-                marginRight: "4px",
-                fontSize: "15px",
-                backgroundColor: "#00C194",
-                height: "44px",
-                "&:hover": {
-                  backgroundColor: "#00A47E",
-                },
-                "& .icon-rotate": {
-                  transform: "rotate(0deg)", // Initial state (no rotation)
-                  transition: "transform 0.3s ease", // Define the animation transition
-                  borderRadius: "50%", // Hình dạng hình tròn
-                  backgroundColor: "white", // Màu nền của biểu tượng
-                },
-                "& span.MuiButton-startIcon.MuiButton-iconSizeMedium.css-1d6wzja-MuiButton-startIcon":
-                  {
-                    border: "2px solid transparent",
-                    paddingRight: "7px",
-                    paddingLeft: "4px",
-                    alignItems: "center",
+            {propertyBtn.map((property) => (
+              <Button
+                key={property.id}
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                  borderRadius: "25px",
+                  marginLeft: "4px",
+                  marginRight: "4px",
+                  fontSize: "15px",
+                  backgroundColor: "#00C194",
+                  height: "44px",
+                  "&:hover": {
+                    backgroundColor: "#00A47E",
                   },
-                "&:hover .icon-rotate": {
-                  transform: "rotate(180deg)",
-                  transition: "transform 0.3s ease",
-                },
-                "& .icon-rotate span": {
-                  border: "2px solid #00C194", // Đường viền dày cho phần span
-                },
-                textTransform: "none",
-                fontWeight: "600",
-              }}
-              variant="contained"
-              startIcon={
-                <AddIcon
-                  className="icon-rotate"
-                  sx={{
-                    height: "16px",
-                    width: "16px",
-                    color: "#00c194",
-                    fontSize: "large !important",
-                  }}
-                />
-              }
-            >
-              Add property
-            </Button>
+                  "& .icon-rotate": {
+                    transform: "rotate(0deg)", // Initial state (no rotation)
+                    transition: "transform 0.3s ease", // Define the animation transition
+                    borderRadius: "50%", // Hình dạng hình tròn
+                    backgroundColor: "white", // Màu nền của biểu tượng
+                  },
+                  "& span.MuiButton-startIcon.MuiButton-iconSizeMedium.css-1d6wzja-MuiButton-startIcon":
+                    {
+                      border: "2px solid transparent",
+                      paddingRight: "7px",
+                      paddingLeft: "4px",
+                      alignItems: "center",
+                    },
+                  "&:hover .icon-rotate": {
+                    transform: "rotate(180deg)",
+                    transition: "transform 0.3s ease",
+                  },
+                  "& .icon-rotate span": {
+                    border: "2px solid #00C194", // Đường viền dày cho phần span
+                  },
+                  textTransform: "none",
+                  fontWeight: "600",
+                }}
+                variant="contained"
+                startIcon={
+                  <AddIcon
+                    className="icon-rotate"
+                    sx={{
+                      height: "16px",
+                      width: "16px",
+                      color: "#00c194",
+                      fontSize: "large !important",
+                    }}
+                  />
+                }
+                onClick={(event) =>
+                  handleButtonClickProperty(event, property.id, property.link)
+                }
+              >
+                Add property
+              </Button>
+            ))}
 
             <IconButton
               sx={{
