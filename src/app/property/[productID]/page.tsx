@@ -365,6 +365,31 @@ const ProductDetail = ({ params }: { params: { productID: string } }) => {
     description:
       "Countryside Modern Lake View Restaurant only for $500000 onetime is one of the cheapest around and includes water, sewer, and garbage.\r\n\r\nThis restaurant welcomes animals. The Restaurant is on the second story of the building. For all amenities in the house, a live-in super is available.\r\n\r\nPlease get in touch if you have any more inquiries. Additionally, videos are available upon request.\r\n\r\n*** NO BROKER FEE ***\r\n\r\n \tAwesome lake beside of apartment\r\n \t3 Bedroom and 2 Baths\r\n \t24 Hours security\r\n \tAll-time CC camera coverage\r\n \tAbundant sunshine\r\n \tStylish appliances\r\n \tNear a transit hub\r\n \t2-year lease for newly refurbished\r\n \tNecessary credit and background checks\r\n \tNear a Big Hospital and Large Shopingmal\r\n",
   });
+  const [userData, setUserData] = useState({
+    id: 4,
+    first_name: "Bao",
+    last_name: "Phan",
+    username: "Toretto",
+    contact: {
+      id: 1,
+      location: {
+        term_id: 172,
+        name: "New Jersey",
+        slug: "new-jersey",
+        count: 6,
+      },
+      address: "South stump tavern road, 42",
+      phone: "+052015698546",
+      whatsapp_number: "+052015698546",
+      email: "tom_steven@gmail.com",
+    },
+    account: {
+      id: 1,
+      username: "phanchibao007@gmail.com",
+      password: "Pcb0941819910",
+    },
+  });
+
   const [isLoading, setIsLoading] = useState(false);
 
   const searchParams = useSearchParams();
@@ -381,6 +406,27 @@ const ProductDetail = ({ params }: { params: { productID: string } }) => {
       .then((res) => {
         if (res.status === 200) {
           setListingData(res.data[0]);
+          handleGetUserData();
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
+  // useEffect(() => {
+  //   handleGetUserData();
+  // }, [listingData]);
+
+  const handleGetUserData = () => {
+    setIsLoading(true);
+    api
+      .get(`user/userId?id=${listingData.author_id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          setUserData(res.data);
         }
         setIsLoading(false);
       })
@@ -725,10 +771,14 @@ const ProductDetail = ({ params }: { params: { productID: string } }) => {
                               component="h5"
                               className={Style.userName}
                             >
-                              Tom Steven
+                              {userData?.username}
                             </Typography>
-                            <Typography>{listingData.contact.phone}</Typography>
-                            <Typography>{listingData.contact.phone}</Typography>
+                            <Typography>
+                              Phone: {listingData.contact.phone}
+                            </Typography>
+                            <Typography>
+                              Email: {listingData.contact.email}
+                            </Typography>
                           </Grid>
 
                           <Grid item xs={12} sm={12} md={12} lg={12}>

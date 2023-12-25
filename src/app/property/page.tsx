@@ -893,7 +893,7 @@ const Property = () => {
                     }}
                     sx={{
                       display: (
-                        initialProductListing <= listingsData.length
+                        initialProductListing < listingsData.length
                           ? true
                           : false
                       )

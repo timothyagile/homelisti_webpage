@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -19,7 +20,6 @@ import Style from "./myAccount.module.scss";
 import api from "../api/client";
 
 import { useGlobalContext } from "../Context/store";
-import { useRouter } from "next/navigation";
 
 const theme = createTheme({
   palette: {
@@ -102,7 +102,7 @@ const myAccount = () => {
             <Grid item xs={12} sm={12} md={3} lg={3} className={Style.sidebar}>
               <Button variant="contained">Account details</Button>
               <Button
-              className={Style.logout}
+                className={Style.logout}
                 onClick={() => {
                   SETUSERNAME("");
                   SETPASSWORD("");

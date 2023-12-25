@@ -1,28 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import Box from "@mui/material/Box";
-import Style from "./formInfo.module.scss";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Container from "@mui/material/Container";
-import SellIcon from "@mui/icons-material/Sell";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import { useRouter } from "next/navigation";
-import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormGroup from "@mui/material/FormGroup";
-import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { styled } from "@mui/material/styles";
-import PersonIcon from "@mui/icons-material/Person";
-import LinkIcon from "@mui/icons-material/Link";
+
+import Style from "./formInfo.module.scss";
 import api from "@/app/api/client";
 import { useGlobalContext } from "@/app/Context/store";
+
+import {
+  Container,
+  Box,
+  TextField,
+  Autocomplete,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormGroup,
+  Checkbox,
+  Button,
+  styled,
+} from "@mui/material";
+
+import SellIcon from "@mui/icons-material/Sell";
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import PersonIcon from "@mui/icons-material/Person";
+import LinkIcon from "@mui/icons-material/Link";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -90,6 +94,7 @@ const categoryCheck = [
 interface props {
   listingType: string;
   category: number;
+  loading: boolean;
 }
 
 function formInfo(props: props) {
@@ -172,7 +177,8 @@ function formInfo(props: props) {
   const router = useRouter();
 
   const handleSubmitForm = () => {
-    console.log(JWT);
+    console.log(props.category);
+    console.log(props.listingType);
     if (JWT !== "") {
       api.defaults.headers.common = { Authorization: `Bearer ${JWT}` };
       api
@@ -208,92 +214,16 @@ function formInfo(props: props) {
           xl: "1000px",
         },
         backgroundColor: "#eaf7f4",
-        // paddingTop: "86px",
       }}
     >
-      {/* <Box
-                className = {Style.breadcrumbBanner} 
-            >
-                <div className={Style.barContainer}>
-                    <div className={Style.containerTitle}>
-                        <>
-                            <a href="/" style={{
-                                color: "#878c9f",
-                                textDecoration: "none",
-                            }}>
-                                Home
-                            </a>
-                            <ChevronRightIcon 
-                                sx={{
-                                    fontSize: "18px",
-                                    marginRight:"7px",
-                                    marginLeft:"7px"
-                                }}
-                            />
-                        </>
-                    </div>
-                    <div className={Style.contactAddress}>
-                       Post an Ad
-                    </div>
-                </div>
-            </Box> */}
       <Box className={Style.contentArea}>
         <Container className={Style.container}>
           <Box className={Style.mainForm}>
             <div className={Style.mainContent}>
               <div className={Style.pageContentInner}>
-                {/* <div className={Style.pageTitleWrap}>
-                  <h2 className={Style.pageTitle}>Post an Ad</h2>
-                </div> */}
-
                 <div className={Style.post2363}>
                   <div className={Style.homeListingForm}>
                     <Box className={Style.adTypeSelection}>
-                      {/* <Box className={Style.posSectionTitle}>
-                        <h3>
-                          <SellIcon
-                            sx={{
-                              fontSize: "18px",
-                              marginRight: "5px",
-                              fontWeight: "600",
-                            }}
-                          />
-                          Selected Category
-                        </h3>
-                      </Box> */}
-                      {/* <div className={Style.selectCat}>
-                        <div className={Style.propertyBtnBack}>
-                          <>
-                            <a
-                              href="/propertyBtn"
-                              style={{
-                                color: "#878c9f",
-                                textDecoration: "none",
-                              }}
-                            >
-                              Post an Ad
-                            </a>
-                            <ChevronRightIcon
-                              sx={{
-                                fontSize: "18px",
-                                marginRight: "7px",
-                                marginLeft: "7px",
-                              }}
-                            />
-                          </>
-                        </div>
-                        <div className={Style.changeCategory}>
-                          <a
-                            href="/propertyBtn"
-                            style={{
-                              color: "#00c194",
-                              textDecoration: "none",
-                            }}
-                          >
-                            Change Category
-                          </a>
-                        </div>
-                      </div> */}
                       <Box className={Style.posSectionTitle}>
                         <h3 className={Style.section}>
                           <InsertPhotoIcon
