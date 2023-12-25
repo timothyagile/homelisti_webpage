@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { useRouter } from "next/navigation";
+
 import { Grid, Box, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
@@ -19,16 +21,19 @@ import CircleIcon from "@mui/icons-material/Circle";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
+import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 
-const quickLinks: string[] = [
-  "About Us",
-  "Blog & Articles",
-  "Term and Conditions",
-  "Privacy Policy",
-  "Contact Us",
+const quickLinks: { title: string; link: string }[] = [
+  { title: "About Us", link: "/about" },
+  { title: "Blog & Articles", link: "/" },
+  { title: "Term and Conditions", link: "/" },
+  { title: "Privacy Policy", link: "/" },
+  { title: "Contact Us", link: "/contact" },
 ];
 
 function Footer() {
+  const router = useRouter();
+
   return (
     <footer style={{ backgroundColor: "#173454" }}>
       <Container maxWidth="xl">
@@ -55,12 +60,7 @@ function Footer() {
             }}
           >
             <Box sx={{ "&:hover": { cursor: "pointer" } }}>
-              <Image
-                src="/logo_light.svg"
-                width={136}
-                height={36}
-                alt="Logo"
-              />
+              <Image src="/logo_light.svg" width={136} height={36} alt="Logo" />
             </Box>
             <Typography color={"#BCD3DA"} sx={{ marginTop: "8px" }}>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -93,6 +93,10 @@ function Footer() {
                   borderRadius: "4px",
                   marginRight: "8px",
 
+                  a: {
+                    lineHeight: "20px",
+                  },
+
                   "&:hover": {
                     backgroundColor: "#00C194",
                   },
@@ -102,7 +106,14 @@ function Footer() {
                   },
                 }}
               >
-                <TwitterIcon className="icon-rotate" />
+                <Link href={"https://discord.gg/QVYWPX2D"} target="blank">
+                  <ConnectWithoutContactIcon
+                    className="icon-rotate"
+                    sx={{
+                      color: "white",
+                    }}
+                  />
+                </Link>
               </IconButton>
               <IconButton
                 sx={{
@@ -195,8 +206,11 @@ function Footer() {
             >
               {quickLinks.map((link) => (
                 <Button
+                  onClick={() => {
+                    router.push(link.link);
+                  }}
                   startIcon={<CircleIcon sx={{ height: "8px" }} />}
-                  key={link}
+                  key={link.title}
                   sx={{
                     justifyContent: "center",
                     width: "fit-content",
@@ -214,7 +228,7 @@ function Footer() {
                     },
                   }}
                 >
-                  {link}
+                  {link.title}
                 </Button>
               ))}
             </Box>
