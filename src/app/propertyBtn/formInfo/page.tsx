@@ -97,7 +97,7 @@ interface props {
   loading: boolean;
 }
 
-function FormInfo(props: props) {
+const FormInfo = (props: props) => {
   const [listingTitle, setListingTitle] = useState("");
   const [listingPrice, setListingPrice] = useState("");
   const [listingParking, setListingParking] = useState(-1);
@@ -118,8 +118,6 @@ function FormInfo(props: props) {
   const { JWT } = useGlobalContext();
 
   const handleCheckAmenities = (event: React.ChangeEvent) => {
-    console.log(event.target.name);
-    console.log(event.target.checked);
     switch (event.target.name) {
       case "TV cable":
         if (event.target.checked) setListingTV(1);
@@ -860,6 +858,6 @@ function FormInfo(props: props) {
       </Box>
     </Box>
   );
-}
+};
 
 export default FormInfo;
