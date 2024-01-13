@@ -91,13 +91,13 @@ const categoryCheck = [
   { label: "Education" },
 ];
 
-interface properties {
+interface Properties {
   listingType: string;
   category: number;
   loading: boolean;
 }
 
-const FormInfo = (props: properties) => {
+const FormInfo = (props: Properties) => {
   const [listingTitle, setListingTitle] = useState("");
   const [listingPrice, setListingPrice] = useState("");
   const [listingParking, setListingParking] = useState(-1);
