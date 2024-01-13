@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { useRouter } from "next/navigation";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -29,8 +30,8 @@ const theme = createTheme({
   },
 });
 
-const myAccount = () => {
-  const [userData, setUserData] = useState({
+const MyAccount = () => {
+  const [userData, setUserData] = useState<any>({
     id: 4,
     first_name: "Bao",
     last_name: "Phan",
@@ -178,4 +179,4 @@ const myAccount = () => {
   );
 };
 
-export default myAccount;
+export default MyAccount;

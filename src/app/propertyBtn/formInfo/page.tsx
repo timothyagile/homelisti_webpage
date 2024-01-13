@@ -97,7 +97,7 @@ interface props {
   loading: boolean;
 }
 
-function formInfo(props: props) {
+function FormInfo(props: props) {
   const [listingTitle, setListingTitle] = useState("");
   const [listingPrice, setListingPrice] = useState("");
   const [listingParking, setListingParking] = useState(-1);
@@ -862,4 +862,4 @@ function formInfo(props: props) {
   );
 }
 
-export default formInfo;
+export default FormInfo;
