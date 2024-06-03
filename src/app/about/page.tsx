@@ -13,14 +13,10 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import Aos from "aos";
-import "aos/dist/aos.css";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import YouTube from "react-youtube";
-
-Aos.init();
 
 function About() {
   const [scrollPosition, setScrollPosition] = React.useState(0);
@@ -372,7 +368,6 @@ function About() {
                   "-webkit-align-items: flex-start !important",
                 width: "100%",
               }}
-              data-aos="fade-right"
             >
               <Box
                 sx={{
@@ -561,7 +556,7 @@ function About() {
                 </Box>
               </Box>
             </Box>
-            <div className="image-container" data-aos="fade-left">
+            <div className="image-container">
               <Image
                 src="/about-meet-2.jpg"
                 alt="Logo"
@@ -672,7 +667,6 @@ function About() {
               display: "flex",
               marginTop: { xs: "50px", sm: "55px", md: "20px" },
             }}
-            data-aos="fade-up"
           >
             <Box
               sx={{
@@ -761,7 +755,6 @@ function About() {
             sx={{
               width: { xs: "100%", lg: "62%", md: "62%", sm: "100%" },
             }}
-            data-aos="fade-up"
           >
             <div className="widget-wrap">
               <div className="element-widget">
@@ -849,7 +842,6 @@ function About() {
             width: "100%",
             display: "flex",
           }}
-          data-aos="fade-up"
         >
           <Box
             sx={{
@@ -1195,7 +1187,6 @@ function About() {
             marginLeft: "auto",
             flexDirection: { xs: "column", sm: "column ", md: "row" },
           }}
-          data-aos="fade-up"
         >
           <Box
             sx={{
@@ -1236,9 +1227,8 @@ function About() {
 
                 <div
                   className="elementor-widget-container-img"
-                  data-aos="fade-right"
                 >
-                  <img
+                  <Image
                     width="357"
                     height="131"
                     src="/ct-layer-2.png"

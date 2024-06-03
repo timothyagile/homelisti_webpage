@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, ChangeEvent } from "react";
+import { SelectChangeEvent, SelectProps } from "@mui/material";
 
 import "../globals.css";
 import Style from "./property.module.scss";
@@ -405,18 +406,14 @@ const Property = () => {
   const [selectedTitle, setSelectedTitle] = useState({
     selectedValue: "null",
   });
-  const [listingTypes, setListingTypes] = useState();
-  const [selectedListingTypes, setSelectedListingTypes] = useState({
-    selectedValue: "null",
-  });
-  const [categories, setCategories] = useState();
-  const [selectedCategories, setSelectedCategories] = useState({
-    selectedValue: 0,
-  });
-  const [locations, setLocations] = useState();
-  const [selectedLocations, setSelectedLocations] = useState({
-    selectedValue: 0,
-  });
+  const [listingTypes, setListingTypes] = useState(types);
+  const [selectedListingTypes, setSelectedListingTypes] = useState(
+    listingTypes[0]
+  );
+  const [categories, setCategories] = useState(category);
+  const [selectedCategories, setSelectedCategories] = useState(categories[0]);
+  const [locations, setLocations] = useState(location);
+  const [selectedLocations, setSelectedLocations] = useState(locations[0]);
   const [selectedSortBy, setSelectedSortBy] = useState({
     selectedValue: "date-desc",
   });
@@ -454,9 +451,9 @@ const Property = () => {
     handleLoadLocations();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     handleFilterListingData();
-  },[selectedSortBy])
+  }, [selectedSortBy]);
 
   const handleLoadListing = () => {
     api
@@ -519,27 +516,27 @@ const Property = () => {
   };
 
   const handleFilterListingData = () => {
-    setIsLoading(true);
-    api
-      .get(
-        `Listings/filter?title=${selectedTitle.selectedValue}&type=${
-          selectedListingTypes.selectedValue
-        }&category_id=${selectedCategories.selectedValue}&location_id=${
-          selectedLocations.selectedValue
-        }&min_price=${priceRange[0] * 10000}&max_price=${
-          priceRange[1] * 10000
-        }&&sort_by=${selectedSortBy.selectedValue}`
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          setListingsData(res.data);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
+    // setIsLoading(true);
+    // api
+    //   .get(
+    //     `Listings/filter?title=${selectedTitle.selectedValue}&type=${
+    //       selectedListingTypes.selectedValue
+    //     }&category_id=${selectedCategories.selectedValue}&location_id=${
+    //       selectedLocations.selectedValue
+    //     }&min_price=${priceRange[0] * 10000}&max_price=${
+    //       priceRange[1] * 10000
+    //     }&&sort_by=${selectedSortBy.selectedValue}`
+    //   )
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       setListingsData(res.data);
+    //       setIsLoading(false);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     setIsLoading(false);
+    //   });
   };
 
   const handleTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -548,42 +545,28 @@ const Property = () => {
     }));
   };
 
-  const handleListingTypesChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSelectedListingTypes(() => ({
-      selectedValue: event.target.value as string,
-    }));
+  const handleListingTypesChange = (event: SelectChangeEvent) => {
+    setSelectedListingTypes(event.target.value as string);
   };
 
-  const handleCategoriesChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSelectedCategories(() => ({
-      selectedValue: event.target.value as number,
-    }));
+  const handleCategoriesChange = (event: SelectChangeEvent) => {
+    setSelectedCategories(event.target.value as string);
   };
 
-  const handleLocationsChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSelectedLocations(() => ({
-      selectedValue: event.target.value as number,
-    }));
+  const handleLocationsChange = (event: SelectChangeEvent) => {
+    setSelectedLocations(event.target.value as string);
   };
 
   const handleSortByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectedSortBy(() => ({
-      selectedValue: event.target.value as string,
-    }));
+    // setSelectedSortBy(event.target.value as string);
   };
 
-  const handleResetSearch = () => {
-    setSelectedTitle({ selectedValue: "null" });
-    setSelectedListingTypes({ selectedValue: "null" });
-    setSelectedCategories({ selectedValue: 0 });
-    setSelectedLocations({ selectedValue: 0 });
-  };
+  // const handleResetSearch = () => {
+  //   setSelectedTitle({ selectedValue: "null" });
+  //   setSelectedListingTypes({ selectedValue: "null" });
+  //   setSelectedCategories({ selectedValue: 0 });
+  //   setSelectedLocations({ selectedValue: 0 });
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -646,13 +629,13 @@ const Property = () => {
                         disableScrollLock: true,
                       }}
                       className={Style.advancedSearchItem}
-                      value={selectedListingTypes.selectedValue}
+                      value={selectedListingTypes}
                       onChange={handleListingTypesChange}
                     >
                       <MenuItem value="null">Property Type</MenuItem>
-                      {listingTypes?.map((type) => (
-                        <MenuItem key={type.id} value={type.id}>
-                          {type.name}
+                      {listingTypes?.map((type, id) => (
+                        <MenuItem key={id} value={type}>
+                          {type}
                         </MenuItem>
                       ))}
                     </Select>
@@ -661,21 +644,18 @@ const Property = () => {
                       displayEmpty
                       variant="outlined"
                       placeholder="All Categories"
-                      defaultValue={0}
+                      defaultValue="null"
                       MenuProps={{
                         disableScrollLock: true,
                       }}
                       className={Style.advancedSearchItem}
-                      value={selectedCategories.selectedValue}
+                      value={selectedCategories}
                       onChange={handleCategoriesChange}
                     >
                       <MenuItem value={0}>All Categories</MenuItem>
-                      {categories?.map((category) => (
-                        <MenuItem
-                          key={category.term_id}
-                          value={category.term_id}
-                        >
-                          {category.name}
+                      {categories?.map((index, category) => (
+                        <MenuItem key={index} value={category}>
+                          {category}
                         </MenuItem>
                       ))}
                     </Select>
@@ -684,21 +664,18 @@ const Property = () => {
                       displayEmpty
                       variant="outlined"
                       placeholder="All Cities"
-                      defaultValue={0}
+                      defaultValue="null"
                       MenuProps={{
                         disableScrollLock: true,
                       }}
                       className={Style.advancedSearchItem}
-                      value={selectedLocations.selectedValue}
+                      value={selectedLocations}
                       onChange={handleLocationsChange}
                     >
                       <MenuItem value={0}>All Cities</MenuItem>
-                      {locations?.map((location) => (
-                        <MenuItem
-                          key={location.term_id}
-                          value={location.term_id}
-                        >
-                          {location.name}
+                      {locations?.map((index, location) => (
+                        <MenuItem key={index} value={location}>
+                          {location}
                         </MenuItem>
                       ))}
                     </Select>
@@ -797,7 +774,7 @@ const Property = () => {
                     <Button
                       variant="outlined"
                       startIcon={<RestartAltIcon />}
-                      onClick={handleResetSearch}
+                      // onClick={handleResetSearch}
                     >
                       Reset
                     </Button>
@@ -829,7 +806,7 @@ const Property = () => {
                         disableScrollLock: true,
                       }}
                       className={Style.orderBy}
-                      onChange={handleSortByChange}
+                      // onChange={handleSortByChange}
                     >
                       {sortby.map((item) => (
                         <MenuItem key={item.id} value={item.id}>

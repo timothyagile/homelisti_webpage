@@ -1,7 +1,5 @@
 "use client";
 import * as React from "react";
-import Aos from "aos";
-import 'aos/dist/aos.css'
 import Style from "./contact.module.scss"
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box"
@@ -17,12 +15,6 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import RedditIcon from '@mui/icons-material/Reddit';
 
 function Contact() {
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-          // Ensure that window and document are defined before calling Aos.init()
-          Aos.init();
-        }
-    }, []);
 
     return (
         <Box sx={{

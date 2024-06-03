@@ -4,15 +4,11 @@ import { useState, useEffect, createContext, useContext } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Aos from "aos";
-import "aos/dist/aos.css";
 import Style from "./login.module.scss";
 import api from "../api/client";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../Context/store";
 import LoadingPage from "@/components/loadingPage/loading";
-
-Aos.init();
 
 function Login() {
   const router = useRouter();
